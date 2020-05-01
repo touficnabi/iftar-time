@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo:wght@700&family=DM+Serif+Text&display=swap');
+
+
+.timer-wrapper{
+    background: url(../images/bg.jpg) repeat;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.city-country{
+    font-size: 20px;
+    position: absolute;
+    top: 0%;
+    color: #c59e41;
+    padding: 10px 20px;
+    background: white;
+    border: 1px solid;
+    transform: translateY(125%);
+}
+
+.floating-box{
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(0,0,0,.1);
+    font-size: 17px;
+    font-family: 'DM Serif Text', sans-serif;
+    max-width: 90%;
+    width: 100%;
+}
+
+.floating-box .heading{
+    font-size: 25px;
+    color: #fff;
+    padding: 30px;
+    background: #c59e42;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.timer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Exo', sans-serif;
+    padding: 0 10px 30px;
+}
+
+.timer .tm-parts {
+    padding: 6px;
+    background: #ffffff;
+    border-radius: 3px;
+    margin: 30px 2px 0;
+    width: 100%;
+    max-width: 67px;
+    min-width: 67px;
+    color: #c59e42;
+    border: 2px solid rgba(197, 158, 64, 0.12);
+}
+
+.tm-parts p{
+    font-size: 50px;
+}
+
+.tm-parts span{
+    font-size: 12px;
+}
+
+@media screen and (min-width:600px){
+
+    .timer-wrapper{
+        min-height: 90vh;
+    }
+
+    .floating-box{
+        max-width: 100%;
+        width:580px;
+    }
+
+    .floating-box .heading{
+        font-size: 45px;
+    }
+
+    .timer{
+        padding: 0 30px 30px;
+    }
+
+    .timer .tm-parts {
+        padding: 15px;
+        max-width: 156px;
+        min-width: 126px;
+        color: #c59e42;
+        margin: 50px 7px 0;
+    }
+
+    .tm-parts p{
+        font-size: 100px;
+    }
+
+    .tm-parts span{
+        font-size: 17px;
+    }
+}
