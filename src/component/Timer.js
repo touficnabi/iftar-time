@@ -38,11 +38,16 @@ class Timer extends Component {
         const m = now.getMonth() + 1;
         const month = m < 10 ? `0${m}` : m ;
         const day = now.getDate();
-        const nextDay = day + 1;
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1)
+        const nextDay = tomorrow.getDate() // (new Date() + 1).getDate();
+        const tm = tomorrow.getMonth() + 1;
+        const tMonth = tm < 10 ? `0${tm}` : tm ;
+        const tYear = tomorrow.getFullYear();
 
         const FajrTime = `${year}-${month}-${day}T${fTime[0]}:${fTime[1]}:00${utc_offset}`;
         const MaghribTime = `${year}-${month}-${day}T${mTime[0]}:${mTime[1]}:00${utc_offset}`;
-        const nextDatFajrTime = `${year}-${month}-${nextDay}T${nextDayfTime[0]}:${nextDayfTime[1]}:00${utc_offset}`;
+        const nextDatFajrTime = `${tYear}-${tMonth}-${nextDay}T${nextDayfTime[0]}:${nextDayfTime[1]}:00${utc_offset}`;
 
         this.setState({
             FajrTime,
@@ -98,7 +103,7 @@ class Timer extends Component {
         } else if (FajrTimeRemaining._milliseconds < 0 && MaghribTimeRemaining._milliseconds < 0) { //fajr and maghrib done comong soon next day fajr
             const nextDayFajrTimeRemaining = duration(nextDayMomentFajrTime.diff(now));
 
-            console.log(nextDayFajrTimeRemaining)
+            console.log('firing', nextDayFajrTimeRemaining)
             this.setState({
                 night: true
             })

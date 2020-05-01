@@ -36,7 +36,7 @@ class Page extends Component{
                 .then(resp => {
                     const { data } = resp.data;
                     const { Fajr, Maghrib } = data[day].timings;
-                    const FajrNextDay = data[day + 1].timings.Fajr;
+                    const FajrNextDay = data[day].timings.Fajr;
                     
                     //setting the state according to the data
                     this.setState({
