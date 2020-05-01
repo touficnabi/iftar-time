@@ -37,7 +37,8 @@ class Timer extends Component {
         const year = now.getFullYear();
         const m = now.getMonth() + 1;
         const month = m < 10 ? `0${m}` : m ;
-        const day = now.getDate();
+        const d = now.getDate();
+        const day = d < 10 ? `0${d}` : d ;
         const tomorrow = new Date(now);
         tomorrow.setDate(tomorrow.getDate() + 1)
         const nextDay = tomorrow.getDate() // (new Date() + 1).getDate();
