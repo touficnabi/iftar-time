@@ -42,7 +42,7 @@ class Timer extends Component {
 
         const FajrTime = `${year}-${month}-${day}T${fTime[0]}:${fTime[1]}:00${utc_offset}`;
         const MaghribTime = `${year}-${month}-${day}T${mTime[0]}:${mTime[1]}:00${utc_offset}`;
-        const nextDatFajrTime = `${year}-${month}-${day}T${nextDayfTime[0]}:${nextDayfTime[1]}:00${utc_offset}`;
+        const nextDatFajrTime = `${year}-${month}-${nextDay}T${nextDayfTime[0]}:${nextDayfTime[1]}:00${utc_offset}`;
 
         this.setState({
             FajrTime,
