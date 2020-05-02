@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import moment, { duration } from 'moment';
+import { Helmet } from 'react-helmet';
 import '../styles/_timer.css';
 
 class Timer extends Component {
@@ -41,7 +42,8 @@ class Timer extends Component {
         const day = d < 10 ? `0${d}` : d ;
         const tomorrow = new Date(now);
         tomorrow.setDate(tomorrow.getDate() + 1)
-        const nextDay = tomorrow.getDate() // (new Date() + 1).getDate();
+        const nDay = tomorrow.getDate() // (new Date() + 1).getDate();
+        const nextDay = nDay < 10 ? `0${nDay}` : nDay ;
         const tm = tomorrow.getMonth() + 1;
         const tMonth = tm < 10 ? `0${tm}` : tm ;
         const tYear = tomorrow.getFullYear();
@@ -154,6 +156,11 @@ class Timer extends Component {
         if (night){
             return(
                 <Fragment>
+                    {/* setting title */}
+                    <Helmet>
+                        <title></title>
+                    </Helmet>
+
                     <div className="timer-wrapper">
                         <div className="city-country">
                             <p>{city}, {country}</p>
