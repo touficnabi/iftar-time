@@ -106,7 +106,6 @@ class Timer extends Component {
         } else if (FajrTimeRemaining._milliseconds < 0 && MaghribTimeRemaining._milliseconds < 0) { //fajr and maghrib done comong soon next day fajr
             const nextDayFajrTimeRemaining = duration(nextDayMomentFajrTime.diff(now));
 
-            console.log('firing', nextDayFajrTimeRemaining)
             this.setState({
                 night: true
             })
