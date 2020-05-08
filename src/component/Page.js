@@ -19,7 +19,36 @@ class Page extends Component{
         FajrNextDay: ""
     }
 
-    //GET TIME
+    //geolocation
+    geolocation = () => {
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(this.getLocation, this.getTime)
+        }
+    }
+
+    //GET DATA OF LOCATION AVAILABLE
+    getLocation = pos => {
+
+        const { latitude, longitude } = pos.coords;
+
+        const now = new Date() //moment();
+        const year = now.getFullYear(); //now.year();
+        const month = now.getMonth() + 1; //now.month() + 1;
+        const day = now.getDate() - 1; //now.day();
+
+        //make call to api
+        axios.get(`https://api.aladhan.com/v1/calendar?latitude=${latitude}&longitude=${longitude}&method=2&month=${month}&year=${year}`)
+                .then(resp => {
+                    const { data } = resp.data;
+                    const { Fajr, Maghrib } = data[day].timings;
+                    const FajrNextDay = data[day].timings.Fajr;
+                    console.log('fajr coming from location', Fajr);
+                })
+
+
+    }
+
+    //GET TIME IF NO LOCATION AVAILABLE
     getTime = () => {
 
         const now = new Date() //moment();
@@ -57,6 +86,7 @@ class Page extends Component{
 
     async componentDidMount(){
         this.getTime();
+        this.geolocation();
     }
 
     render(){

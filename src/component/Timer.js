@@ -201,7 +201,7 @@ class Timer extends Component {
                         </div>
                         <div className="floating-box">
                             <div className="heading">
-                                <h2>Iftar Start in</h2>
+                                <h2>Iftar Starts in</h2>
                             </div>
                             <div className="timer">
                                 <div className="tm-parts hours">
