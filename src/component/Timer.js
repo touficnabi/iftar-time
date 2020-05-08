@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import moment, { duration } from 'moment';
-import { Helmet } from 'react-helmet';
 import '../styles/_timer.css';
 
 class Timer extends Component {
