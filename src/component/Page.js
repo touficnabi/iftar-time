@@ -8,6 +8,7 @@ import Timer from './Timer';
 class Page extends Component{
 
     state = {
+        geolocation: false,
         isLoaded : false,
         city: "",
         country_name: "",
@@ -22,7 +23,17 @@ class Page extends Component{
     //geolocation
     geolocation = () => {
         if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(this.getLocation, this.getTime)
+            navigator.geolocation.getCurrentPosition(this.getLocation, this.getTime);
+
+            //city and country name
+            axios.get('https://ipapi.co/json').then( res => {
+                const { city, country_name } = res.data;
+
+                this.setState({
+                    city,
+                    country_name
+                })
+            })
         }
     }
 
@@ -47,7 +58,6 @@ class Page extends Component{
               tzHours    = this.pad(Math.floor(Math.abs(offset/60))),
               tzMinutes  = this.pad(Math.abs(offset%60)),
               utc_offset = `${sign}${tzHours}${tzMinutes}`;
-        console.log(offset, sign, tzHours, tzMinutes)
 
         //make call to api
         axios.get(`https://api.aladhan.com/v1/calendar?latitude=${latitude}&longitude=${longitude}&method=2&month=${month}&year=${year}`)
@@ -55,17 +65,11 @@ class Page extends Component{
                     const { data } = resp.data;
                     const { Fajr, Maghrib } = data[day].timings;
                     const FajrNextDay = data[day].timings.Fajr;
-                    
-                    //city and country name
-                    axios.get('https://geolocation-db.com/json').then(res => {
-                        console.log(res)
-                    })
 
                     //setting the state according to the data
                     this.setState({
+                        geolocation: true,
                         isLoaded: true,
-                        //city,
-                        //country_name,
                         latitude,
                         longitude,
                         utc_offset,
