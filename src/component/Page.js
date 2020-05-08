@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import '../styles/_reset.css';
 import '../styles/_page.css';
 
@@ -26,6 +27,11 @@ class Page extends Component{
         }
     }
 
+    //adding zero if less than 10
+    pad = n => {
+        return n < 10 ? `0${n}` : n;
+    }
+
     //GET DATA OF LOCATION AVAILABLE
     getLocation = pos => {
 
@@ -36,13 +42,38 @@ class Page extends Component{
         const month = now.getMonth() + 1; //now.month() + 1;
         const day = now.getDate() - 1; //now.day();
 
+        //calcaulate timezoneOffet
+        const offset     = now.getTimezoneOffset(),
+              sign       = offset < 0 ? '+' : '-',
+              tzHours    = this.pad(Math.floor(Math.abs(offset/60))),
+              tzMinutes  = this.pad(Math.abs(offset%60)),
+              utc_offset = `${sign}${tzHours}${tzMinutes}`;
+        console.log(offset, sign, tzHours, tzMinutes)
+
         //make call to api
         axios.get(`https://api.aladhan.com/v1/calendar?latitude=${latitude}&longitude=${longitude}&method=2&month=${month}&year=${year}`)
                 .then(resp => {
                     const { data } = resp.data;
                     const { Fajr, Maghrib } = data[day].timings;
                     const FajrNextDay = data[day].timings.Fajr;
-                    console.log('fajr coming from location', Fajr);
+                    
+                    //city and country name
+                    axios.get('https://geolocation-db.com/json').then(res => {
+                        console.log(res)
+                    })
+
+                    //setting the state according to the data
+                    this.setState({
+                        isLoaded: true,
+                        //city,
+                        //country_name,
+                        latitude,
+                        longitude,
+                        utc_offset,
+                        Fajr,
+                        Maghrib,
+                        FajrNextDay
+                    })
                 })
 
 
@@ -85,7 +116,7 @@ class Page extends Component{
 
 
     async componentDidMount(){
-        this.getTime();
+        //this.getTime();
         this.geolocation();
     }
 
@@ -104,9 +135,8 @@ class Page extends Component{
                             <div className="bottom-wrapper">
                                 <div className="bottom-container">
                                     <div className="box">
-                                        <p>Source: Islamic Society North America &#40;ISNA&#41;</p>
+                                        <p>Timing source: Islamic Society North America &#40;ISNA&#41;</p>
                                         {/* <p>Iftar Time: {Maghrib}</p> */}
-                                        &nbsp;
                                         {/* <p>Sehri Time: {Fajr}</p> */}
 
                                     </div>

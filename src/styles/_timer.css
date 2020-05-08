@@ -3,7 +3,7 @@
 
 .timer-wrapper{
     background: url(../images/bg.jpg) repeat;
-    min-height: 70vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,10 +15,13 @@
     position: absolute;
     top: 0%;
     color: #c59e41;
-    padding: 10px 20px;
     background: white;
-    border: 1px solid;
     transform: translateY(125%);
+}
+
+.city-country p{
+    padding: 10px 20px;
+    border: 1px solid;
 }
 
 .floating-box{
@@ -70,9 +73,9 @@
 
 @media screen and (min-width:600px){
 
-    .timer-wrapper{
+    /* .timer-wrapper{
         min-height: 90vh;
-    }
+    } */
 
     .floating-box{
         max-width: 100%;

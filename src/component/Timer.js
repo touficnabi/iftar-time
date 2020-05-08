@@ -155,14 +155,10 @@ class Timer extends Component {
         if (night){
             return(
                 <Fragment>
-                    {/* setting title */}
-                    <Helmet>
-                        <title></title>
-                    </Helmet>
 
                     <div className="timer-wrapper">
                         <div className="city-country">
-                            <p>{city}, {country}</p>
+                            {city !== "" && country !== "" && <p>{city}, {country}</p>}
                         </div>
                         <div className="floating-box">
                             <div className="heading">
@@ -197,7 +193,7 @@ class Timer extends Component {
                 <Fragment>
                     <div className="timer-wrapper">
                         <div className="city-country">
-                            <p>{city}, {country}</p>
+                        {city !== "" && country !== "" && <p>{city}, {country}</p>}
                         </div>
                         <div className="floating-box">
                             <div className="heading">
