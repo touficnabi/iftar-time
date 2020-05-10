@@ -33,6 +33,8 @@ class Page extends Component{
                     city,
                     country_name
                 })
+            }).catch(err => {
+                console.log('ipapi error', err)
             })
         }
     }
