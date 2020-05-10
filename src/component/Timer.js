@@ -35,16 +35,14 @@ class Timer extends Component {
         //getting time date
         const now = new Date();
         const year = now.getFullYear();
-        const m = now.getMonth() + 1;
-        const month = m < 10 ? `0${m}` : m ;
-        const d = now.getDate();
-        const day = d < 10 ? `0${d}` : d ;
+        const month = (now.getMonth() + 1).toString().padStart(2,0);
+        const day = now.getDate().toString().padStart(2,0);
+        
+        //get the next day
         const tomorrow = new Date(now);
         tomorrow.setDate(tomorrow.getDate() + 1)
-        const nDay = tomorrow.getDate() // (new Date() + 1).getDate();
-        const nextDay = nDay < 10 ? `0${nDay}` : nDay ;
-        const tm = tomorrow.getMonth() + 1;
-        const tMonth = tm < 10 ? `0${tm}` : tm ;
+        const nextDay = tomorrow.getDate().toString().padStart(2,0) // gives the next day. if today is the last day of the month it gives the first day of next month
+        const tMonth = (tomorrow.getMonth() + 1).toString().padStart(2,0);
         const tYear = tomorrow.getFullYear();
 
         const FajrTime = `${year}-${month}-${day}T${fTime[0]}:${fTime[1]}:00${utc_offset}`;
