@@ -11,14 +11,14 @@ class Timer extends Component {
         MaghribTime: "",
         nextDatFajrTime: "",
         FajrTimeRemaining : {
-            fHours : null,
-            fMinutes : null,
-            fSeconds : null 
+            fHours : 0,
+            fMinutes : 0,
+            fSeconds : 0 
         },
         MaghribTimeRemaining : {
-            mHours : null,
-            mMinutes : null,
-            mSeconds : null 
+            mHours : 0,
+            mMinutes : 0,
+            mSeconds : 0 
         },
         night: false,
         ready: false
@@ -80,7 +80,8 @@ class Timer extends Component {
                     fHours,
                     fMinutes,
                     fSeconds 
-                }
+                },
+                ready: true
             })
 
             //play adhan if the countdown is zero
@@ -102,7 +103,8 @@ class Timer extends Component {
                     mHours,
                     mMinutes,
                     mSeconds 
-                }
+                },
+                ready: true
             })
 
             //play adhan if the countdown is zero
@@ -126,7 +128,8 @@ class Timer extends Component {
                     fHours,
                     fMinutes,
                     fSeconds 
-                }
+                },
+                ready: true
             })
         }
     }
@@ -145,6 +148,7 @@ class Timer extends Component {
     adhan = () =>{
         const adhan = new Audio();
         adhan.src = 'https://toufic.me/ex/feb/pt/audio/Adhan.mp3';
+        console.log('adhn playing')
         adhan.play();
     }
 
@@ -153,7 +157,7 @@ class Timer extends Component {
         //this.calculateTime();
         this.Intervar = setInterval(() => {
             this.calculateTime()
-        }, 100);
+        }, 1000);
     }
 
     componentWillUnmount(){
@@ -162,7 +166,7 @@ class Timer extends Component {
 
     render(){
 
-        const { night, city, country } = this.state;
+        const { night, city, country, ready } = this.state;
         const { fHours, fMinutes, fSeconds } = this.state.FajrTimeRemaining;
         const { mHours, mMinutes, mSeconds } = this.state.MaghribTimeRemaining;
 
