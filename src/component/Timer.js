@@ -83,6 +83,11 @@ class Timer extends Component {
                 }
             })
 
+            //play adhan if the countdown is zero
+            if (fHours === 0 && fMinutes === 0 && fSeconds === 0){
+                this.adhan()
+            }
+
         } else if (FajrTimeRemaining._milliseconds < 0 && MaghribTimeRemaining._milliseconds > 0){ //fajr over, coming soon maghrib
             this.setState({
                 night: false
@@ -99,6 +104,11 @@ class Timer extends Component {
                     mSeconds 
                 }
             })
+
+            //play adhan if the countdown is zero
+            if (mHours === 0 && mMinutes === 0 && mSeconds === 0){
+                this.adhan()
+            }
             
         } else if (FajrTimeRemaining._milliseconds < 0 && MaghribTimeRemaining._milliseconds < 0) { //fajr and maghrib done comong soon next day fajr
             const nextDayFajrTimeRemaining = duration(nextDayMomentFajrTime.diff(now));
@@ -131,12 +141,19 @@ class Timer extends Component {
         return n === 1 ? `${label}` : `${label}s`;
     }
 
+    //define adhan
+    adhan = () =>{
+        const adhan = new Audio();
+        adhan.src = 'https://toufic.me/ex/feb/pt/audio/Adhan.mp3';
+        adhan.play();
+    }
+
     componentDidMount(){
         this.setUpTime();
         //this.calculateTime();
         this.Intervar = setInterval(() => {
             this.calculateTime()
-        }, 10)
+        }, 100);
     }
 
     componentWillUnmount(){
