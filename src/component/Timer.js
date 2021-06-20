@@ -21,7 +21,8 @@ class Timer extends Component {
             mSeconds : 0 
         },
         night: false,
-        ready: false
+        ready: false,
+        adhanOn : false
     }
 
     setUpTime = () => {
@@ -86,7 +87,7 @@ class Timer extends Component {
 
             //play adhan if the countdown is zero
             if (fHours === 0 && fMinutes === 0 && fSeconds === 0){
-                this.adhan()
+                this.setState({adhanOn: true})
             }
 
         } else if (FajrTimeRemaining._milliseconds < 0 && MaghribTimeRemaining._milliseconds > 0){ //fajr over, coming soon maghrib
@@ -109,7 +110,7 @@ class Timer extends Component {
 
             //play adhan if the countdown is zero
             if (mHours === 0 && mMinutes === 0 && mSeconds === 0){
-                this.adhan()
+                this.setState({adhanOn: true})
             }
             
         } else if (FajrTimeRemaining._milliseconds < 0 && MaghribTimeRemaining._milliseconds < 0) { //fajr and maghrib done comong soon next day fajr
@@ -150,6 +151,7 @@ class Timer extends Component {
         adhan.src = 'https://toufic.me/ex/feb/pt/audio/Adhan.mp3';
         console.log('adhn playing')
         adhan.play();
+        this.setState({adhanOn: false})
     }
 
     componentDidMount(){
@@ -157,6 +159,7 @@ class Timer extends Component {
         //this.calculateTime();
         this.Intervar = setInterval(() => {
             this.calculateTime()
+            if(this.state.adhanOn) this.adhan();
         }, 1000);
     }
 
@@ -166,7 +169,7 @@ class Timer extends Component {
 
     render(){
 
-        const { night, city, country, ready } = this.state;
+        const { night, city, country } = this.state;
         const { fHours, fMinutes, fSeconds } = this.state.FajrTimeRemaining;
         const { mHours, mMinutes, mSeconds } = this.state.MaghribTimeRemaining;
 

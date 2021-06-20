@@ -17,25 +17,35 @@ class Page extends Component{
         utc_offset: "",
         Fajr: "",
         Maghrib: "",
-        FajrNextDay: ""
+        FajrNextDay: "",
+        ip: ""
     }
 
-    //geolocation
+    //check ipAPI
+    ipapi = field =>{
+        axios.get(`https://ipapi.co/${field}/`).then(res => {
+            const result = res.data;
+            console.log('cheding the ip')
+            this.setState({
+                [field] : result
+            })
+        }).catch(err=> {
+            console.log('ipapi error page.js > this.ipapi')
+        })
+    }
+
+    // check if the location service is on
     geolocation = () => {
-        if(navigator.geolocation){
+        //city and country name
+        this.ipapi('ip');
+        this.ipapi('city');
+        this.ipapi('country_name');
+        this.ipapi('utc_offset')
+
+        if(navigator.geolocation){   // check if the location service is on
             navigator.geolocation.getCurrentPosition(this.getLocation, this.getTime);
 
-            //city and country name
-            axios.get('https://ipapi.co/json').then( res => {
-                const { city, country_name } = res.data;
-
-                this.setState({
-                    city,
-                    country_name
-                })
-            }).catch(err => {
-                console.log('ipapi error', err)
-            })
+            
         }
     }
 
@@ -49,10 +59,10 @@ class Page extends Component{
 
         const { latitude, longitude } = pos.coords;
 
-        const now = new Date() //moment();
-        const year = now.getFullYear(); //now.year();
+        const now   = new Date() //moment();
+        const year  = now.getFullYear(); //now.year();
         const month = now.getMonth() + 1; //now.month() + 1;
-        const day = now.getDate() - 1; //now.day();
+        const day   = now.getDate() - 1; //now.day();
 
         //calcaulate timezoneOffet
         const offset     = now.getTimezoneOffset(),
@@ -80,8 +90,6 @@ class Page extends Component{
                         FajrNextDay
                     })
                 })
-
-
     }
 
     //GET TIME IF NO LOCATION AVAILABLE
@@ -93,9 +101,16 @@ class Page extends Component{
         const day = now.getDate() - 1; //now.day();
 
         //get the ip & data
-        axios.get('https://ipapi.co/json').then(res => {
+        
+        //axios.get('https://ipapi.co/json').then(res => {
+        //    const { data } = res;
+        //    const { city, country_name, latitude, longitude, utc_offset } = data;
+        axios.get(`https://ipapi.co/latlong/`).then(res => {
+            console.log(res.data.split(/[,]+/))
             const { data } = res;
-            const { city, country_name, latitude, longitude, utc_offset } = data;
+            const latitude = data.split(/[,]+/)[0];
+            const longitude = data.split(/[,]+/)[1];
+            //const { city, country_name, latitude, longitude, utc_offset } = data;
 
             axios.get(`https://api.aladhan.com/v1/calendar?latitude=${latitude}&longitude=${longitude}&method=2&month=${month}&year=${year}`)
                 .then(resp => {
@@ -106,21 +121,24 @@ class Page extends Component{
                     //setting the state according to the data
                     this.setState({
                         isLoaded: true,
-                        city,
-                        country_name,
+                        //city,
+                        //country_name,
                         latitude,
                         longitude,
-                        utc_offset,
+                        //utc_offset,
                         Fajr,
                         Maghrib,
                         FajrNextDay
                     })
                 })
+        }).catch(err => {
+            console.error(err)
+            //alert('Please turn off the AdBlocker and reload the page. We don\'t show ads.')
         })
     }
 
 
-    async componentDidMount(){
+    componentDidMount(){
         //this.getTime();
         this.geolocation();
     }
