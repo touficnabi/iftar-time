@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Page1 from './component/newPage';
 import Loading from './component/Loading';
-import Page from './component/Page';
+// import Page from './component/Page';
 import axios from 'axios';
 
 function App() {
