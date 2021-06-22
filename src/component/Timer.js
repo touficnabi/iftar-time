@@ -9,7 +9,7 @@ class Timer extends Component {
         country: this.props.country,
         FajrTime : "",
         MaghribTime: "",
-        nextDatFajrTime: "",
+        nextDayFajrTime: "",
         FajrTimeRemaining : {
             fHours : 0,
             fMinutes : 0,
@@ -48,12 +48,12 @@ class Timer extends Component {
 
         const FajrTime = `${year}-${month}-${day}T${fTime[0]}:${fTime[1]}:00${utc_offset}`;
         const MaghribTime = `${year}-${month}-${day}T${mTime[0]}:${mTime[1]}:00${utc_offset}`;
-        const nextDatFajrTime = `${tYear}-${tMonth}-${nextDay}T${nextDayfTime[0]}:${nextDayfTime[1]}:00${utc_offset}`;
+        const nextDayFajrTime = `${tYear}-${tMonth}-${nextDay}T${nextDayfTime[0]}:${nextDayfTime[1]}:00${utc_offset}`;
 
         this.setState({
             FajrTime,
             MaghribTime,
-            nextDatFajrTime
+            nextDayFajrTime
         })
         
     }
@@ -62,7 +62,7 @@ class Timer extends Component {
         const now = moment();
         const momentFajrTime = moment(this.state.FajrTime);
         const momentMaghribTime = moment(this.state.MaghribTime);
-        const nextDayMomentFajrTime = moment(this.state.nextDatFajrTime);
+        const nextDayMomentFajrTime = moment(this.state.nextDayFajrTime);
 
         let FajrTimeRemaining = duration(momentFajrTime.diff(now));
         let MaghribTimeRemaining = duration(momentMaghribTime.diff(now));
@@ -176,10 +176,9 @@ class Timer extends Component {
         if (night){
             return(
                 <Fragment>
-
                     <div className="timer-wrapper">
                         <div className="city-country">
-                            {city !== "" && country !== "" && <p>{city}, {country}</p>}
+                            {city !== null && country !== null && <p>{city}, {country}</p>}
                         </div>
                         <div className="floating-box">
                             <div className="heading">
