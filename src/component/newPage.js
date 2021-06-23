@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Timer from './Timer';
 import Loading from './Loading';
+import '../styles/_reset.css';
+import '../styles/_page.css';
 
 class Page1 extends Component {
     state = {
@@ -60,6 +62,19 @@ class Page1 extends Component {
                 <>
                     <div className="content">
                         <Timer Fajr={Fajr} Maghrib={Maghrib} FajrNextDay={FajrNextDay} utc_offset={utc_offset} city={city} country={country_name} />
+                    </div>
+                    
+                    <div className="bottom">
+                        <div className="bottom-wrapper">
+                            <div className="bottom-container">
+                                <div className="box">
+                                    {/* <p>Timing source: Islamic Society North America &#40;ISNA&#41;</p> */}
+                                    {/* <p>Iftar Time: {Maghrib}</p> */}
+                                    {/* <p>Sehri Time: {Fajr}</p> */}
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </>
             )

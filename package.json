@@ -1,7 +1,7 @@
 {
   "name": "prayer-time",
   "version": "0.1.0",
-  "homepage": "http://toufic.me/iftar/",
+  "homepage": "https://toufic.me/iftar/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
