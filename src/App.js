@@ -3,7 +3,7 @@ import './App.css';
 import Page1 from './component/newPage';
 import Loading from './component/Loading';
 // import Page from './component/Page';
-import axios from 'axios';
+// import axios from 'axios';
 
 function App() {
     const [lat, setLat] = useState(23.0111110000);
@@ -27,7 +27,9 @@ function App() {
     }
 
     const getUserIpLocation = () => {
-        console.log('location is not available')
+        console.log('location is not available');
+        setCity(null);
+        setCountry(null)
         // const IPSTACK_API_KEY = process.env.REACT_APP_IP_STACK_API_KEY;
         // axios.get(`http://api.ipstack.com/check?access_key=${IPSTACK_API_KEY}`).then(res => {
         //     const {latitude, longitude, city, country_name} = res.data;
