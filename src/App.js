@@ -14,7 +14,7 @@ function App() {
 
     useEffect(() => {
         if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
+            navigator.geolocation.getCurrentPosition(getUserLocation);
         }
     })
 
