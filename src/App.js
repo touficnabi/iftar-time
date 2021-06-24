@@ -14,7 +14,7 @@ function App() {
 
     useEffect(() => {
         if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(getUserLocation);
+            navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
         }
     })
 
@@ -27,15 +27,16 @@ function App() {
     }
 
     const getUserIpLocation = () => {
-        const IPSTACK_API_KEY = process.env.REACT_APP_IP_STACK_API_KEY;
-        axios.get(`http://api.ipstack.com/check?access_key=${IPSTACK_API_KEY}`).then(res => {
-            const {latitude, longitude, city, country_name} = res.data;
-            setLat(latitude);
-            setLong(longitude);
-            setCity(city);
-            setCountry(country_name);
-            setLocation(true);
-        })
+        console.log('location is not available')
+        // const IPSTACK_API_KEY = process.env.REACT_APP_IP_STACK_API_KEY;
+        // axios.get(`http://api.ipstack.com/check?access_key=${IPSTACK_API_KEY}`).then(res => {
+        //     const {latitude, longitude, city, country_name} = res.data;
+        //     setLat(latitude);
+        //     setLong(longitude);
+        //     setCity(city);
+        //     setCountry(country_name);
+        //     setLocation(true);
+        // })
     }
 
     if (location){
