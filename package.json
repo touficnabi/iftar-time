@@ -14,6 +14,7 @@
     "react-geolocated": "^3.0.1",
     "react-geolocation": "^1.0.4",
     "react-helmet": "^6.0.0",
+    "react-places-autocomplete": "^7.3.0",
     "react-scripts": "3.4.1"
   },
   "scripts": {

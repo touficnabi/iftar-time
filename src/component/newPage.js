@@ -28,11 +28,12 @@ class Page1 extends Component {
         const day   = now.getDate() - 1; //now.day();
 
         //calcaulate timezoneOffet
-        const offset = now.getTimezoneOffset(),
-        sign         = offset < 0 ? '+' : '-',
-        tzHours      = this.pad(Math.floor(Math.abs(offset/60))),
-        tzMinutes    = this.pad(Math.abs(offset%60)),
-        utc_offset   = `${sign}${tzHours}${tzMinutes}`;
+        const utc_offset = now.toString().match(/([-+][0-9]+)\s/)[1];
+        // const offset = now.getTimezoneOffset(),
+        // sign         = offset < 0 ? '+' : '-',
+        // tzHours      = this.pad(Math.floor(Math.abs(offset/60))),
+        // tzMinutes    = this.pad(Math.abs(offset%60)),
+        // utc_offset   = `${sign}${tzHours}${tzMinutes}`;
 
         const {lat, long} = this.props;
 
@@ -62,19 +63,6 @@ class Page1 extends Component {
                 <>
                     <div className="content">
                         <Timer Fajr={Fajr} Maghrib={Maghrib} FajrNextDay={FajrNextDay} utc_offset={utc_offset} city={city} country={country_name} />
-                    </div>
-                    
-                    <div className="bottom">
-                        <div className="bottom-wrapper">
-                            <div className="bottom-container">
-                                <div className="box">
-                                    {/* <p>Timing source: Islamic Society North America &#40;ISNA&#41;</p> */}
-                                    {/* <p>Iftar Time: {Maghrib}</p> */}
-                                    {/* <p>Sehri Time: {Fajr}</p> */}
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </>
             )
