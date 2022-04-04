@@ -17,7 +17,7 @@ function App() {
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
         }
-    })
+    }, [])
 
     //IF USER ALLOWS LOCATION
     const getUserLocation = pos => {
@@ -28,14 +28,15 @@ function App() {
     }
 
     const getUserIpLocation = () => {
-        axios.get('https://ipapi.co/latlong').then(res => {
+        axios.get('https://ipapi.co/json/').then(res => {
             const { data } = res;
-            const [ lat, long ] = data.split(',');
-            setLat(lat);
-            setLong(long);
+            //const [ lat, long ] = data.split(',');
+            const { latitude, longitude, city, country_name } = data;
+            setLat(latitude);
+            setLong(longitude);
+            setCity(city);
+            setCountry(country_name);
             setLocation(true);
-            setCity(null);
-            setCountry(null)
         })
     }
 
@@ -43,7 +44,7 @@ function App() {
         return(
             <div className="App">
                 <Page1 lat={lat} long={long} city={city} country={country} />
-                <SelectCity />
+                {/* <SelectCity /> */}
             </div>
         )
     }
