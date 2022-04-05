@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Timer from './Timer';
 import Loading from './Loading';
@@ -21,7 +21,9 @@ const Page1 = ({city, country, lat, long}) => {
 
         const utc_offset = now.toString().match(/([-+][0-9]+)\s/)[1];
 
-        axios.get(`https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=2&month=${month}&year=${year}`)
+        let url = `https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=2&month=${month}&year=${year}`;
+        console.log(url);
+        axios.get(url)
                 .then(resp => {
                     const { data } = resp.data;
                     const { Fajr, Maghrib } = data[day].timings;
@@ -35,7 +37,7 @@ const Page1 = ({city, country, lat, long}) => {
                 })
 
 
-    } , [city, country, lat, long]);
+    }, [city, country, lat, long]);
 
 
     if (isLoaded) {

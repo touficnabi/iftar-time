@@ -177,9 +177,10 @@ class Timer extends Component {
             return(
                 <Fragment>
                     <div className="timer-wrapper">
-                        <div className="city-country">
-                            {city !== null && country !== null && <p>{city}, {country}</p>}
-                        </div>
+                        {city && country &&  <div className="city-country">
+                            <p>{city}, {country}</p>
+                        </div>}
+                       
                         <div className="floating-box">
                             <div className="heading">
                                 <h2>Sehri Ends in</h2>
