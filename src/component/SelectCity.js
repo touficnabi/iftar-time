@@ -1,47 +1,46 @@
-import React, { Component } from 'react'; 
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
-class SelectCity extends Component{
+const SelectCity =() => {
 
-    state={
-        address: ''
+    const [cityname, setCityname] = useState("");
+    const [city, setCity] = useState([]);
+
+    const onClick = (e) => {
+        Cookies.set("lat", e.target.getAttribute("data-latitude"));
+        Cookies.set('long', e.target.getAttribute("data-longitude"));
+        Cookies.set('city', e.target.getAttribute("data-city"));
+        Cookies.set('country', e.target.getAttribute("data-country"));
+        window.location.reload();
+
     }
 
-    handleChange = address => {
-        this.setState({ address })
-    }
+    useEffect(() => {
+        const cancelToken = axios.CancelToken.source();
+        axios.get(`http://geodb-free-service.wirefreethought.com/v1/geo/cities?namePrefix=${cityname}`, {cancelToken: cancelToken.token}).then(res => {
+            const { data: {data} } = res;
+            setCity(data);
+        }).catch(err => {
+            if (axios.isCancel(err)) {
+                console.log('Request will be passed once done typing!');
+            }
+        })
 
-    handleSelect = address => {
-        geocodeByAddress(address)
-            .then(res => {
-                getLatLng(res[0])
-            })
-            .then(latlong => console.log('success', latlong))
-            .catch(err => console.log('Error', err))
-    }
+        return () => {
+            cancelToken.cancel();
+        }
+    },[cityname]);
 
-    render(){
-        return(
-            <>
-                <h1>Select city....</h1>
-                <PlacesAutocomplete value={this.state.address} onChange={this.handleChange} onSelect={this.handleSelect}>
-                    {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
-                        <div>
-                            <input {...getInputProps({placeholder: 'Please select your city', className: 'location-search-input'}) } />
-                            <div className="autocomplete-dropdown-container">
-                                {loading && <h3>Loading...</h3>}
-                                {suggestions.map(suggestion => (
-                                    <div {...getSuggestionItemProps(suggestion, {})}>
-                                        <span>suggestion.description</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                </PlacesAutocomplete>
-            </>
-        )
-    }
+    return (
+        <>
+            <h1>City name</h1>
+            <input type="text" onChange={e => setCityname(e.target.value)} value={cityname} />
+            <ul>
+                {city.map(city => <li data-latitude={city.latitude} data-longitude={city.longitude} data-city={city.name} data-country={city.country} onClick={onClick} key={city.id}>{city.name}, {city.country}</li>)}
+            </ul>
+        </>
+    )
 }
 
 export default SelectCity;

@@ -1,6 +1,7 @@
 {
   "name": "prayer-time",
   "version": "0.1.0",
+  "homepage": "https://toufic.me/iftar/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -8,13 +9,14 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
+    "js-cookie": "^3.0.1",
     "moment": "^2.24.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-geolocated": "^3.0.1",
     "react-geolocation": "^1.0.4",
+    "react-google-places-autocomplete": "^3.3.4",
     "react-helmet": "^6.0.0",
-    "react-places-autocomplete": "^7.3.0",
     "react-scripts": "3.4.1"
   },
   "scripts": {
