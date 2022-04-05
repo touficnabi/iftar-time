@@ -20,7 +20,7 @@ function App() {
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
         }
-    }, []);
+    });
 
     //IF USER ALLOWS LOCATION
     const getUserLocation = pos => {
