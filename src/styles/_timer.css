@@ -11,18 +11,47 @@
 }
 
 .city-country{
-    font-size: 20px;
-    position: absolute;
-    top: 0%;
+    /* font-size: 20px;
     color: #c59e41;
     background: white;
-    transform: translateY(125%);
+    position: absolute;
+    top: 0%;
+    transform: translateY(125%); */
+    
+    /* for map icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.city-country p{
+.city-country svg {
+    margin-right: 5px;
+}
+
+.footer {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(197, 158, 64, 0.12);
+    flex-direction: column;
+    font-size: 12px;
+    font-weight: 400;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 10px;
+    grid-gap: 5px;
+    font-family: 'Exo', sans-serif;
+    color: #c59e41;
+}
+
+.footer > .footer-parts {
+
+}
+
+/* .city-country p{
     padding: 10px 20px;
     border: 1px solid;
-}
+} */
 
 .floating-box{
     background: #fff;
@@ -87,7 +116,7 @@
     }
 
     .timer{
-        padding: 0 30px 30px;
+        padding: 30px;
     }
 
     .timer .tm-parts {
@@ -95,7 +124,7 @@
         max-width: 156px;
         min-width: 126px;
         color: #c59e42;
-        margin: 50px 7px 0;
+        margin: 0 7px;
     }
 
     .tm-parts p{
@@ -104,5 +133,10 @@
 
     .tm-parts span{
         font-size: 17px;
+    }
+
+    .footer {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));;
+        grid-gap: 10px;
     }
 }

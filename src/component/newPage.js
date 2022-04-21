@@ -22,7 +22,7 @@ const Page1 = ({city, country, lat, long}) => {
         const utc_offset = now.toString().match(/([-+][0-9]+)\s/)[1];
 
         let url = `https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=2&month=${month}&year=${year}`;
-        console.log(url);
+
         axios.get(url)
                 .then(resp => {
                     const { data } = resp.data;

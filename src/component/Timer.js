@@ -133,6 +133,10 @@ class Timer extends Component {
                 ready: true
             })
         }
+        //setting up title of the page with the time in it
+        const { fHours, fMinutes, fSeconds } = this.state.FajrTimeRemaining;
+        const { mHours, mMinutes, mSeconds } = this.state.MaghribTimeRemaining;
+        this.state.night ? document.title = `Sehri Ends in ${fHours}:${fMinutes}:${fSeconds}` : document.title = `Iftar Starts in ${mHours}:${mMinutes}:${mSeconds}`;
     }
 
     //adding zero if less than 10
@@ -153,6 +157,11 @@ class Timer extends Component {
         adhan.play();
         this.setState({adhanOn: false})
     }
+
+    // plainTime = (identifier) => {
+    //     const selector = identifier === 'iftar' ? this.state.MaghribTime : this.state.FajrTime;
+    //     return moment(selector).format('LT');
+    // }
 
     componentDidMount(){
         this.setUpTime();
@@ -177,9 +186,6 @@ class Timer extends Component {
             return(
                 <Fragment>
                     <div className="timer-wrapper">
-                        {city && country &&  <div className="city-country">
-                            <p>{city}, {country}</p>
-                        </div>}
                        
                         <div className="floating-box">
                             <div className="heading">
@@ -205,6 +211,24 @@ class Timer extends Component {
                                     </div>
                                 </div> 
                             </div>
+                            <div className="footer">
+                            {city !== "" && country !== "" && <div className="footer-parts">
+                                    <div className="city-country">
+                                        <svg viewBox="0 0 368.553 368.553" xmlns="http://www.w3.org/2000/svg" width={15} fill="currentColor"> <path d="m184.28 0c-71.683 0-130 58.317-130 130 0 87.26 119.19 229.86 124.26 235.88 1.417 1.685 3.504 2.66 5.705 2.67h0.032c2.189 0 4.271-0.957 5.696-2.621 5.075-5.926 124.3-146.16 124.3-235.93-1e-3 -71.683-58.317-130-130-130zm0.045 349.25c-23.937-29.771-115.04-147.8-115.04-219.25 0-63.411 51.589-115 115-115s115 51.589 115 115c-1e-3 73.49-90.95 189.83-114.96 219.25z"/> <path d="m184.28 72.293c-30.476 0-55.269 24.793-55.269 55.269s24.793 55.269 55.269 55.269 55.269-24.793 55.269-55.269-24.793-55.269-55.269-55.269zm0 95.537c-22.204 0-40.269-18.064-40.269-40.269s18.064-40.269 40.269-40.269 40.269 18.064 40.269 40.269-18.066 40.269-40.269 40.269z"/> </svg>
+                                        <p>{city}, {country}</p>
+                                    </div>
+                                </div>}
+                                <div className="footer-parts">
+                                    <div className="iftar">
+                                        <p>Iftar: {moment(this.state.MaghribTime).format('LT')}</p>
+                                    </div>
+                                </div>
+                                <div className="footer-parts">
+                                    <div className="sehri">
+                                        <p>Sehri: {moment(this.state.FajrTime).format('LT')}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </Fragment>
@@ -213,9 +237,7 @@ class Timer extends Component {
             return(
                 <Fragment>
                     <div className="timer-wrapper">
-                        <div className="city-country">
-                        {city !== "" && country !== "" && <p>{city}, {country}</p>}
-                        </div>
+                       
                         <div className="floating-box">
                             <div className="heading">
                                 <h2>Iftar Starts in</h2>
@@ -239,6 +261,24 @@ class Timer extends Component {
                                         <span className="foot">{this.lebel(mSeconds, 'Second')}</span>
                                     </div>
                                 </div> 
+                            </div>
+                            <div className="footer">
+                            {city !== "" && country !== "" && <div className="footer-parts">
+                                    <div className="city-country">
+                                        <svg viewBox="0 0 368.553 368.553" xmlns="http://www.w3.org/2000/svg" width={15} fill="currentColor"> <path d="m184.28 0c-71.683 0-130 58.317-130 130 0 87.26 119.19 229.86 124.26 235.88 1.417 1.685 3.504 2.66 5.705 2.67h0.032c2.189 0 4.271-0.957 5.696-2.621 5.075-5.926 124.3-146.16 124.3-235.93-1e-3 -71.683-58.317-130-130-130zm0.045 349.25c-23.937-29.771-115.04-147.8-115.04-219.25 0-63.411 51.589-115 115-115s115 51.589 115 115c-1e-3 73.49-90.95 189.83-114.96 219.25z"/> <path d="m184.28 72.293c-30.476 0-55.269 24.793-55.269 55.269s24.793 55.269 55.269 55.269 55.269-24.793 55.269-55.269-24.793-55.269-55.269-55.269zm0 95.537c-22.204 0-40.269-18.064-40.269-40.269s18.064-40.269 40.269-40.269 40.269 18.064 40.269 40.269-18.066 40.269-40.269 40.269z"/> </svg>
+                                         <p>{city}, {country}</p>
+                                    </div>
+                                </div>}
+                                <div className="footer-parts">
+                                    <div className="iftar">
+                                        <p>Iftar: {moment(this.state.MaghribTime).format('LT')}</p>
+                                    </div>
+                                </div>
+                                <div className="footer-parts">
+                                    <div className="sehri">
+                                        <p>Sehri: {moment(this.state.FajrTime).format('LT')}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

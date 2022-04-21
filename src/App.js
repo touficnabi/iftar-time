@@ -5,6 +5,7 @@ import Loading from './component/Loading';
 import axios from 'axios';
 import SelectCity from './component/SelectCity';
 import Cookies from 'js-cookie';
+// import CitySelect from './component/CitySelect';
 // import Page from './component/Page';
 
 function App() {
@@ -85,6 +86,7 @@ function App() {
     if (location){
         return(
             <div className="App">
+                {/* <CitySelect /> */}
                 <Page1 lat={lat} long={long} city={city} country={country} />
             </div>
         )
