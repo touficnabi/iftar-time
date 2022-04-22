@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Timer from './Timer';
 import Loading from './Loading';
-import '../styles/_reset.css';
-import '../styles/_page.css';
+// import '../styles/_reset.scss';
+// import '../styles/_page.scss';
 
 const Page1 = ({city, country, lat, long}) => {
 
@@ -19,6 +19,10 @@ const Page1 = ({city, country, lat, long}) => {
         const month = now.getMonth() + 1; //now.month() + 1;
         const day   = now.getDate() - 1; //now.day();
 
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1); //this gives the next day | if today is the last day of the month, it gives the first day of the next month
+        const nextDay = tomorrow.getDate() - 1; //array index starts from 0
+
         const utc_offset = now.toString().match(/([-+][0-9]+)\s/)[1];
 
         let url = `https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=2&month=${month}&year=${year}`;
@@ -27,7 +31,7 @@ const Page1 = ({city, country, lat, long}) => {
                 .then(resp => {
                     const { data } = resp.data;
                     const { Fajr, Maghrib } = data[day].timings;
-                    const FajrNextDay = data[day].timings.Fajr;
+                    const FajrNextDay = data[nextDay].timings.Fajr;
 
                     setFajr(Fajr);
                     setMaghrib(Maghrib);

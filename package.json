@@ -17,7 +17,8 @@
     "react-geolocation": "^1.0.4",
     "react-google-places-autocomplete": "^3.3.4",
     "react-helmet": "^6.0.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "sass": "^1.50.1"
   },
   "scripts": {
     "start": "react-scripts start",

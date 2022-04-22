@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import '../styles/_reset.css';
-import '../styles/_page.css';
+import '../styles/_reset.scss';
+import '../styles/_page.scss';
 
 import Timer from './Timer';
 

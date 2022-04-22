@@ -5,6 +5,7 @@ import Loading from './component/Loading';
 import axios from 'axios';
 import SelectCity from './component/SelectCity';
 import Cookies from 'js-cookie';
+import './styles/style.scss';
 // import CitySelect from './component/CitySelect';
 // import Page from './component/Page';
 
