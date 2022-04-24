@@ -29,7 +29,7 @@ class Timer extends Component {
         const { Fajr, Maghrib, FajrNextDay, utc_offset } = this.props;
         
         //splitting the time of prayer
-        const fTime = Fajr.split(/[:\s]+/);
+        const fTime = Fajr.split(/[:\s]+/); 
         const mTime = Maghrib.split(/[:\s]+/);
         const nextDayfTime = FajrNextDay.split(/[:\s]+/);
 
@@ -169,6 +169,12 @@ class Timer extends Component {
 
     componentWillUnmount(){
         clearInterval(this.calculateTime)
+    }
+    
+    componentDidUpdate(prevProps, prevState){
+        if(prevProps.Maghrib !== this.props.Maghrib || prevProps.Fajr !== this.props.Fajr || prevProps.nextDayFajr !== this.props.nextDayFajr){
+            this.setUpTime();
+        }
     }
 
     render(){

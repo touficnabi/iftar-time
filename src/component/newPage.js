@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Timer from './Timer';
 import Loading from './Loading';
-// import '../styles/_reset.scss';
-// import '../styles/_page.scss';
+import useMethods from './useMethods';
 
 const Page1 = ({city, country, lat, long}) => {
 
@@ -12,8 +11,11 @@ const Page1 = ({city, country, lat, long}) => {
     const [Fajr, setFajr] = useState(null);
     const [Maghrib, setMaghrib] = useState(null);
     const [FajrNextDay, setFajrNextDay] = useState(null);
-
+    const [method, setMethod] = useState(2);
+    const {methods, defaultLocation} = useMethods(lat, long);
+    
     useEffect(() => {
+
         const now   = new Date() //moment();
         const year  = now.getFullYear(); //now.year();
         const month = now.getMonth() + 1; //now.month() + 1;
@@ -25,7 +27,7 @@ const Page1 = ({city, country, lat, long}) => {
 
         const utc_offset = now.toString().match(/([-+][0-9]+)\s/)[1];
 
-        let url = `https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=2&month=${month}&year=${year}`;
+        let url = `https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=${method}&month=${month}&year=${year}`;
 
         axios.get(url)
                 .then(resp => {
@@ -41,7 +43,7 @@ const Page1 = ({city, country, lat, long}) => {
                 })
 
 
-    }, [city, country, lat, long]);
+    }, [city, country, lat, long, method]);
 
 
     if (isLoaded) {
@@ -49,6 +51,12 @@ const Page1 = ({city, country, lat, long}) => {
             <>
                 <div className="content">
                     <Timer Fajr={Fajr} Maghrib={Maghrib} FajrNextDay={FajrNextDay} utc_offset={utc_offset} city={city} country={country} />
+                    <div className="method">
+                        <h3>Choose a method: </h3>
+                        <select onChange={e => setMethod(Number(e.target.value))} name="method" defaultValue={defaultLocation}>
+                            {methods.map(method => method.name && <option key={method.id} value={method.id}>{method.name}</option>)}
+                        </select>
+                    </div>
                 </div>
             </>
         )

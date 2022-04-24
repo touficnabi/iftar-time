@@ -11,6 +11,27 @@
     flex-direction: column;
 }
 
+.method {
+    font-size: 12px;
+    color: rgb(var(--primary-color));
+    display: flex;
+    align-items: center;
+    font-family: 'Exo', sans-serif;
+    position: absolute;
+    bottom: 20px;
+    @media (min-width: 600px) {
+        right: 20px;
+    }
+    select {
+        max-width: 220px;
+        font-family: 'Exo';
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: inherit;
+        margin-left: 5px;
+    }
+}
+
 .box {
     position: absolute;
     bottom: 10px;

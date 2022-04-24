@@ -12,7 +12,7 @@ import './styles/style.scss';
 function App() {
     const [lat, setLat] = useState(23.0111110000);
     const [long, setLong] = useState(90.011110000);
-    const [location, setLocation] = useState(false);
+    const [location, setLocation] = useState(true);
     const [city, setCity] = useState(null);
     const [country, setCountry] = useState(null);
     const [locError, setLocError] = useState(false);
@@ -20,7 +20,7 @@ function App() {
 
     useEffect(() => {
         if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
+            navigator.geolocation.getCurrentPosition(getUserLocation);
         }
     });
 
