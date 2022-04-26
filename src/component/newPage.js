@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Timer from './Timer';
 import Loading from './Loading';
-import useMethods from './useMethods';
+import useMethods from '../hooks/useMethods';
 
 const Page1 = ({city, country, lat, long}) => {
 
@@ -15,6 +15,9 @@ const Page1 = ({city, country, lat, long}) => {
     const {methods, defaultLocation} = useMethods(lat, long);
     
     useEffect(() => {
+
+        //setting default method
+        setMethod(defaultLocation);
 
         const now   = new Date() //moment();
         const year  = now.getFullYear(); //now.year();
@@ -43,7 +46,7 @@ const Page1 = ({city, country, lat, long}) => {
                 })
 
 
-    }, [city, country, lat, long, method]);
+    }, [city, country, lat, long, method, defaultLocation]);
 
 
     if (isLoaded) {
