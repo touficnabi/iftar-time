@@ -4,13 +4,12 @@ import {useState, useEffect} from "react";
 
 const useMethods = (lat, long) => {
     const [methods, setMethods] = useState([]);
-    const [defaultLocation, setDefaultLocation] = useState(3);
+    const [defaultMethod, setDefaultMethod] = useState(null);
     
     useEffect(() => {
         axios.get('http://api.aladhan.com/v1/methods').then(res => {
-            const newData = Object.values(res.data.data);
+            const newData = Object.values(res.data.data); //convert object to array
             setMethods(newData);
-            setDefaultLocation(2);
             
             const arrayWithLocation = newData.filter(method => method.location && method).map(method => {
                 return {
@@ -37,7 +36,7 @@ const useMethods = (lat, long) => {
 
             const nearestLocation = findNearestLocation(arrayWithLocation, lat, long);
             // console.log(nearestLocation);
-            setDefaultLocation(nearestLocation.id);
+            setDefaultMethod(nearestLocation.id);
             
             
             
@@ -46,7 +45,7 @@ const useMethods = (lat, long) => {
         })
     } , [lat, long]);
     
-    return {methods, defaultLocation};
+    return {methods, defaultMethod};
 }
 
 export default useMethods;

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Timer from './Timer';
 import Loading from './Loading';
 import useMethods from '../hooks/useMethods';
+import Header from './Header';
 
 const Page1 = ({city, country, lat, long}) => {
 
@@ -11,13 +12,11 @@ const Page1 = ({city, country, lat, long}) => {
     const [Fajr, setFajr] = useState(null);
     const [Maghrib, setMaghrib] = useState(null);
     const [FajrNextDay, setFajrNextDay] = useState(null);
-    const [method, setMethod] = useState(2);
-    const {methods, defaultLocation} = useMethods(lat, long);
+    const {methods, defaultMethod} = useMethods(lat, long);
+    const [method, setMethod] = useState(null);
+    // console.log(defaultMethod);
     
     useEffect(() => {
-
-        //setting default method
-        setMethod(defaultLocation);
 
         const now   = new Date() //moment();
         const year  = now.getFullYear(); //now.year();
@@ -35,6 +34,7 @@ const Page1 = ({city, country, lat, long}) => {
         axios.get(url)
                 .then(resp => {
                     const { data } = resp.data;
+                    console.log('test', data, url);
                     const { Fajr, Maghrib } = data[day].timings;
                     const FajrNextDay = data[nextDay].timings.Fajr;
 
@@ -45,21 +45,22 @@ const Page1 = ({city, country, lat, long}) => {
                     setIsLoaded(true);
                 })
 
+                .catch(err => {
+                    console.log(err);
+                })
 
-    }, [city, country, lat, long, method, defaultLocation]);
+        //set up initial method from the hook
+        method === null && setMethod(defaultMethod);
+
+    }, [city, defaultMethod, country, lat, long, method]);
 
 
     if (isLoaded) {
         return (
             <>
                 <div className="content">
+                    <Header city={city} methods={methods} setMethod={setMethod} defaultMethod={defaultMethod} />
                     <Timer Fajr={Fajr} Maghrib={Maghrib} FajrNextDay={FajrNextDay} utc_offset={utc_offset} city={city} country={country} />
-                    <div className="method">
-                        <h3>Choose a method: </h3>
-                        <select onChange={e => setMethod(Number(e.target.value))} name="method" defaultValue={defaultLocation}>
-                            {methods.map(method => method.name && <option key={method.id} value={method.id}>{method.name}</option>)}
-                        </select>
-                    </div>
                 </div>
             </>
         )

@@ -46,6 +46,7 @@ function App() {
             setCountry(country_name);
             setLocation(true);
         }).catch(err => {
+            console.log(err);
             getLocationFromCookie();
             // setGetInfoFromCity(true);
             // if(cookie_city && cookie_country){
