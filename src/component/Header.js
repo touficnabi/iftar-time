@@ -6,7 +6,7 @@ const Header = ({city,  methods, setMethod, defaultMethod}) => {
                 <h1>Iftar and Sehri Time in <u>{city}</u></h1>
                 <div className="method">
                     {/* <h3>Choose a method: </h3> */}
-                    <select onChange={e => setMethod(Number(e.target.value))} name="method" defaultValue={defaultMethod}>
+                    <select onChange={setMethod} name="method" defaultValue={defaultMethod}>
                         {methods.map(method => method.name && <option key={method.id} value={method.id}>{method.name}</option>)}
                     </select>
                 </div>

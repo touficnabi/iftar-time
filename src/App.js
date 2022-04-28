@@ -22,6 +22,7 @@ function App() {
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
         }
+        location && document.body.classList.add('ready');
     });
 
     //IF USER ALLOWS LOCATION

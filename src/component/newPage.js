@@ -4,6 +4,7 @@ import Timer from './Timer';
 import Loading from './Loading';
 import useMethods from '../hooks/useMethods';
 import Header from './Header';
+import Cookies from 'js-cookie';
 
 const Page1 = ({city, country, lat, long}) => {
 
@@ -14,7 +15,11 @@ const Page1 = ({city, country, lat, long}) => {
     const [FajrNextDay, setFajrNextDay] = useState(null);
     const {methods, defaultMethod} = useMethods(lat, long);
     const [method, setMethod] = useState(null);
-    // console.log(defaultMethod);
+
+    const handleUpdateMethod = e => {
+        setMethod(e.target.value);
+        Cookies.set('method', e.target.value);
+    }
     
     useEffect(() => {
 
@@ -34,7 +39,6 @@ const Page1 = ({city, country, lat, long}) => {
         axios.get(url)
                 .then(resp => {
                     const { data } = resp.data;
-                    console.log('test', data, url);
                     const { Fajr, Maghrib } = data[day].timings;
                     const FajrNextDay = data[nextDay].timings.Fajr;
 
@@ -49,8 +53,15 @@ const Page1 = ({city, country, lat, long}) => {
                     console.log(err);
                 })
 
-        //set up initial method from the hook
-        method === null && setMethod(defaultMethod);
+        //set up initial method from the hook or cookie
+        const cookieMethod = Cookies.get('method');
+        if (cookieMethod){
+            cookieMethod !== null && setMethod(cookieMethod);
+        } else {
+            setMethod(defaultMethod);
+            defaultMethod !== null && Cookies.set('method', defaultMethod);
+        }
+        // method === null && setMethod(defaultMethod);
 
     }, [city, defaultMethod, country, lat, long, method]);
 
@@ -59,7 +70,7 @@ const Page1 = ({city, country, lat, long}) => {
         return (
             <>
                 <div className="content">
-                    <Header city={city} methods={methods} setMethod={setMethod} defaultMethod={defaultMethod} />
+                    <Header city={city} methods={methods} setMethod={handleUpdateMethod} defaultMethod={method} />
                     <Timer Fajr={Fajr} Maghrib={Maghrib} FajrNextDay={FajrNextDay} utc_offset={utc_offset} city={city} country={country} />
                 </div>
             </>

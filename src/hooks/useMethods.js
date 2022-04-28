@@ -1,5 +1,6 @@
 import axios from "axios";
 import {useState, useEffect} from "react";
+import Cookies from "js-cookie";
 
 
 const useMethods = (lat, long) => {
@@ -35,9 +36,7 @@ const useMethods = (lat, long) => {
             }
 
             const nearestLocation = findNearestLocation(arrayWithLocation, lat, long);
-            // console.log(nearestLocation);
             setDefaultMethod(nearestLocation.id);
-            
             
             
         }).catch(err => {
