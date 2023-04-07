@@ -34,10 +34,18 @@ const Page1 = ({city, country, lat, long}) => {
 
         const utc_offset = now.toString().match(/([-+][0-9]+)\s/)[1];
 
-        let url = `https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=${method}&month=${month}&year=${year}`;
+        // let url = `https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=${method}&month=${month}&year=${year}`;
+        let url = `https://api.aladhan.com/v1/calendar`;
 
-        axios.get(url)
-                .then(resp => {
+        axios.get(url, {
+            params: {
+                year: year,
+                latitude: lat,
+                longitude: long,
+                method: method,
+                month: month,
+            }
+        }).then(resp => {
                     const { data } = resp.data;
                     const { Fajr, Maghrib } = data[day].timings;
                     const FajrNextDay = data[nextDay].timings.Fajr;
