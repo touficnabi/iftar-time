@@ -72,7 +72,16 @@ class Page extends Component{
               utc_offset = `${sign}${tzHours}${tzMinutes}`;
 
         //make call to api
-        axios.get(`https://api.aladhan.com/v1/calendar?latitude=${latitude}&longitude=${longitude}&method=2&month=${month}&year=${year}`)
+        // axios.get(`https://api.aladhan.com/v1/calendar?latitude=${latitude}&longitude=${longitude}&method=2&month=${month}&year=${year}`)
+        axios.get(`https://api.aladhan.com/v1/calendar`, {
+            params: {
+                latitude: latitude,
+                longitude: longitude,
+                methods: 2,
+                month: month,
+                year: year
+            }
+        })
                 .then(resp => {
                     const { data } = resp.data;
                     const { Fajr, Maghrib } = data[day].timings;
