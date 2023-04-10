@@ -6,17 +6,14 @@ import axios from 'axios';
 import SelectCity from './component/SelectCity';
 import Cookies from 'js-cookie';
 import './styles/style.scss';
-// import CitySelect from './component/CitySelect';
-// import Page from './component/Page';
 
-function App() {
+const App = () => {
     const [lat, setLat] = useState(23.0111110000);
     const [long, setLong] = useState(90.011110000);
     const [location, setLocation] = useState(false);
     const [city, setCity] = useState(null);
     const [country, setCountry] = useState(null);
     const [locError, setLocError] = useState(false);
-    // const [getInfoFromCity, setGetInfoFromCity] = useState(false);
 
     useEffect(() => {
         if(navigator.geolocation){
@@ -35,9 +32,6 @@ function App() {
 
     const getUserIpLocation = () => {
 
-        // const cookie_city = Cookies.get('city');
-        // const cookie_country = Cookies.get('country');
-
         axios.get('https://ipapi.co/json/').then(res => {
             const { data } = res;
             const { latitude, longitude, city, country_name } = data;
@@ -49,15 +43,6 @@ function App() {
         }).catch(err => {
             console.log(err);
             getLocationFromCookie();
-            // setGetInfoFromCity(true);
-            // if(cookie_city && cookie_country){
-            //     setCity(cookie_city);
-            //     setCountry(cookie_country);
-            //     setLocation(true);
-            //     setLocError(false);
-            // } else {
-            //     setLocError(true);
-            // }
         })
     }
 
