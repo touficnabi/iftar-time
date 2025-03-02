@@ -35,9 +35,6 @@ function App() {
 
     const getUserIpLocation = () => {
 
-        // const cookie_city = Cookies.get('city');
-        // const cookie_country = Cookies.get('country');
-
         axios.get('https://ipapi.co/json/').then(res => {
             const { data } = res;
             const { latitude, longitude, city, country_name } = data;
@@ -48,19 +45,11 @@ function App() {
             setLocation(true);
         }).catch(err => {
             console.log(err);
-            getLocationFromCookie();
-            // setGetInfoFromCity(true);
-            // if(cookie_city && cookie_country){
-            //     setCity(cookie_city);
-            //     setCountry(cookie_country);
-            //     setLocation(true);
-            //     setLocError(false);
-            // } else {
-            //     setLocError(true);
-            // }
+            // getLocationFromCookie();
         })
     }
 
+    //TODO implement cookie logic
     const getLocationFromCookie = () => {
         const lat = Cookies.get('lat');
         const long = Cookies.get('long');

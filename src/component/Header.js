@@ -3,7 +3,8 @@ const Header = ({city,  methods, setMethod, defaultMethod}) => {
     return (
         <header>
             <div className="header-wrapper">
-                <h1>Iftar and Sehri Time in <u>{city}</u></h1>
+                {/* <h1>Iftar and Sehri Time in <u>{city}</u></h1> */}
+                <h1>Iftar and Sehri Time {city && `in ${city}`}</h1>
                 <div className="method">
                     {/* <h3>Choose a method: </h3> */}
                     <select onChange={setMethod} name="method" defaultValue={defaultMethod}>

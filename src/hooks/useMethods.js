@@ -1,6 +1,6 @@
 import axios from "axios";
 import {useState, useEffect} from "react";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 
 const useMethods = (lat, long) => {
