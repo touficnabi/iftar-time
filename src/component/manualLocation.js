@@ -2,14 +2,19 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const ManualLocation = ({onManualLocationSelection}) => {
+    const [open, setOpen] = useState(false);
     const [countries, setCountries] = useState(null);
     const [country, setCountry] = useState(null);
     const [cities, setCities] = useState();
     const [selectedCity, setSelectedCity] = useState(null)
 
     const handleManualLocationSelection = () => {
-        console.log('this is confirm')
+        setOpen(false)
         onManualLocationSelection(selectedCity, country);
+    }
+
+    const handleManualLocationTrigger = () => {
+        setOpen(prevState => !prevState);
     }
     
     const fetchCities = async country => {
@@ -32,26 +37,29 @@ const ManualLocation = ({onManualLocationSelection}) => {
 
     }, [])
     return (
-        <div className='manual-location-selction'>
-        {countries && <select onChange={(e)  => fetchCities(e.target.value)} name="country" id="country">
-            <option value="">Select a country</option>
-            {countries.map(country => (
-                <option key={country.iso3} value={country.country}>
-                    {country.country}
-                </option>
-            ))}
-        </select>}
+        <>
+            <button className='manual-location-trigger' onClick={handleManualLocationTrigger}>{open ? 'Close' : 'Change Location'}</button>
+            <div className={`manual-location-selction ${open ? 'open' : ''}`}>
+            {countries && <select onChange={(e)  => fetchCities(e.target.value)} name="country" id="country">
+                <option value="">Select a country</option>
+                {countries.map(country => (
+                    <option key={country.iso3} value={country.country}>
+                        {country.country}
+                    </option>
+                ))}
+            </select>}
 
-        {cities && <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
-            <option value="">Select your city</option> 
-            {cities.map(city => (
-                <option key={city} value={city}>{city}</option>
-            ))}
-        </select>}
+            {cities && <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
+                <option value="">Select your city</option> 
+                {cities.map(city => (
+                    <option key={city} value={city}>{city}</option>
+                ))}
+            </select>}
 
-        <button onClick={handleManualLocationSelection}>Confirm</button>
-            
-        </div>
+            {selectedCity && <button onClick={handleManualLocationSelection}>Confirm</button>}
+                
+            </div>
+        </>
     )
 }
 

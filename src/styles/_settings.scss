@@ -1,0 +1,25 @@
+.manual-location-trigger {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 20;
+}
+
+.manual-location-selction {
+    position: fixed;
+    width: 90%;
+    height: 90%;
+    top: 5%;
+    left: 5%;
+    background-color: #c59d42;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0px 0px 30px rgba(0, 0, 0, 0.136));
+    border-radius: 3px;
+    z-index: 10;
+
+    &.open {
+        display: flex;
+    }
+}
