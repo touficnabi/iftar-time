@@ -5,6 +5,8 @@ import Loading from './component/Loading';
 import axios from 'axios';
 import SelectCity from './component/SelectCity';
 import Cookies from 'js-cookie';
+import './styles/style.scss';
+import ManualLocation from './component/manualLocation';
 // import Page from './component/Page';
 
 function App() {
@@ -14,13 +16,20 @@ function App() {
     const [city, setCity] = useState(null);
     const [country, setCountry] = useState(null);
     const [locError, setLocError] = useState(false);
-    // const [getInfoFromCity, setGetInfoFromCity] = useState(false);
+    const [getInfoFromCity, setGetInfoFromCity] = useState(false);
+
+    const onManualLocationSelection = (city, country) => {
+        setGetInfoFromCity(true);
+        setCity(city);
+        setCountry(country);
+    }
 
     useEffect(() => {
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
         }
-    });
+        location && document.body.classList.add('ready');
+    },[]);
 
     //IF USER ALLOWS LOCATION
     const getUserLocation = pos => {
@@ -28,12 +37,23 @@ function App() {
         setLat(latitude);
         setLong(longitude);
         setLocation(true);
+        getCity(latitude, longitude);
+    }
+
+    const getCity = (lat, long) => {
+        axios.get('http://api.openweathermap.org/geo/1.0/reverse', {
+            params: {
+                lat: lat, 
+                lon: long,
+                limit: 2,  
+                appid: process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY
+            }
+        })
+        .then(res => setCity(res.data[0].name))
+        .catch(error => console.error("Error fetching open weather map data:", error));
     }
 
     const getUserIpLocation = () => {
-
-        // const cookie_city = Cookies.get('city');
-        // const cookie_country = Cookies.get('country');
 
         axios.get('https://ipapi.co/json/').then(res => {
             const { data } = res;
@@ -44,19 +64,12 @@ function App() {
             setCountry(country_name);
             setLocation(true);
         }).catch(err => {
-            getLocationFromCookie();
-            // setGetInfoFromCity(true);
-            // if(cookie_city && cookie_country){
-            //     setCity(cookie_city);
-            //     setCountry(cookie_country);
-            //     setLocation(true);
-            //     setLocError(false);
-            // } else {
-            //     setLocError(true);
-            // }
+            console.log(err);
+            // getLocationFromCookie();
         })
     }
 
+    //TODO implement cookie logic
     const getLocationFromCookie = () => {
         const lat = Cookies.get('lat');
         const long = Cookies.get('long');
@@ -85,7 +98,9 @@ function App() {
     if (location){
         return(
             <div className="App">
-                <Page1 lat={lat} long={long} city={city} country={country} />
+                {/* <CitySelect /> */}
+                <ManualLocation onManualLocationSelection={onManualLocationSelection} />
+                <Page1 getInfoFromCity={getInfoFromCity} lat={lat} long={long} city={city} country={country} />
             </div>
         )
     }

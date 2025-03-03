@@ -3,26 +3,70 @@
 
 .timer-wrapper{
     background: url(../images/bg.jpg) repeat;
-    min-height: 100vh;
+    // min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    flex: 1;
+    background-size: 47%;
+    @media (min-width: 600px) {
+        background-size: auto;
+    }
 }
 
 .city-country{
-    font-size: 20px;
-    position: absolute;
-    top: 0%;
+    /* font-size: 20px;
     color: #c59e41;
     background: white;
-    transform: translateY(125%);
+    position: absolute;
+    top: 0%;
+    transform: translateY(125%); */
+    
+    /* for map icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+        display: none;
+        @media (min-width: 500px) {
+            display: inline;
+        }
+    }
 }
 
-.city-country p{
+.city-country svg {
+    margin-right: 5px;
+}
+
+.footer {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(var(--primary-color));
+    flex-direction: column;
+    font-size: 12px;
+    font-weight: 400;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 10px;
+    grid-gap: 5px;
+    font-family: 'Exo', sans-serif;
+    color: white;
+
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));;
+    grid-gap: 0px;
+}
+
+// .footer > .footer-parts {
+
+// }
+
+/* .city-country p{
     padding: 10px 20px;
     border: 1px solid;
-}
+} */
 
 .floating-box{
     background: #fff;
@@ -38,7 +82,7 @@
     font-size: 25px;
     color: #fff;
     padding: 30px;
-    background: #c59e42;
+    background: rgb(var(--primary-color));
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
@@ -59,7 +103,7 @@
     width: 100%;
     max-width: 67px;
     min-width: 67px;
-    color: #c59e42;
+    color: rgb(var(--primary-color));
     border: 2px solid rgba(197, 158, 64, 0.12);
 }
 
@@ -87,15 +131,15 @@
     }
 
     .timer{
-        padding: 0 30px 30px;
+        padding: 30px;
     }
 
     .timer .tm-parts {
         padding: 15px;
         max-width: 156px;
         min-width: 126px;
-        color: #c59e42;
-        margin: 50px 7px 0;
+        color: rgb(var(--primary-color));
+        margin: 0 7px;
     }
 
     .tm-parts p{

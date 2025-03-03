@@ -1,0 +1,56 @@
+.manual-location-trigger {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 10px;
+    border: 1px solid white;
+    background-color: rgb(var(--primary-color));
+    color: #fff;
+    font-family: var(--primary-font);
+    z-index: 20;
+}
+
+.manual-location-selction {
+    position: fixed;
+    width: 90%;
+    height: 90%;
+    top: 5%;
+    left: 5%;
+    padding: 20px;
+    background-color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0px 0px 30px rgba(0, 0, 0, 0.136));
+    border-radius: 3px;
+    box-sizing: border-box;
+    z-index: 10;
+
+    &.open {
+        display: block;
+    }
+
+    .container {
+        display: flex;
+        gap: 10px;
+        select {
+            font-family: "Exo";
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: rgb(var(--primary-color));
+            padding: 6px;
+            border: none;
+            border-radius: 0;
+            width: 100%;
+            border: 1px solid;
+            background-color: white;
+        }
+        button {
+            border: 1px solid white;
+            background-color: rgb(var(--primary-color));
+            color: #fff;
+            font-family: var(--primary-font);
+        }
+    }
+
+}
