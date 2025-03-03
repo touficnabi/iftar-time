@@ -8,6 +8,9 @@ const useMethods = (lat, long) => {
     const [defaultMethod, setDefaultMethod] = useState(null);
     
     useEffect(() => {
+        //TODO get these functions in a name function
+        //TODO run the name function here inside the useEffect
+        //TODO export the name function to be used inside of newPage.js useEffect on lat long update
         axios.get('http://api.aladhan.com/v1/methods').then(res => {
             const newData = Object.values(res.data.data); //convert object to array
             setMethods(newData);
