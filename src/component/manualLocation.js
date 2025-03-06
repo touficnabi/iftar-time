@@ -6,6 +6,7 @@ const ManualLocation = ({onManualLocationSelection}) => {
     const [countries, setCountries] = useState(null);
     const [country, setCountry] = useState(null);
     const [cities, setCities] = useState();
+    const [cityLoading, setCityLoading] = useState(false);
     const [selectedCity, setSelectedCity] = useState(null);
 
     const handleManualLocationSelection = async () => {
@@ -14,7 +15,7 @@ const ManualLocation = ({onManualLocationSelection}) => {
             const {lat, lon} = res.data[0];
             onManualLocationSelection(selectedCity, country, lat, lon);
         } else {
-            console.log('error in finding the lat long from the city')
+            alert('Your city was not found, Please select a nearby major city');
         }
         setOpen(false)
     }
@@ -27,10 +28,12 @@ const ManualLocation = ({onManualLocationSelection}) => {
         setCountry(country);
         setCities(null); //to clean up previous selection
         setSelectedCity(""); //reset previous city
+        setCityLoading(true);
 
         try {
             const res = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", { country });
             setCities(res.data.data);
+            setCityLoading(false);
         } catch (error) {
             console.log('error finding cities for specific country', error);
         }
@@ -56,7 +59,7 @@ const ManualLocation = ({onManualLocationSelection}) => {
                             </option>
                         ))}
                     </select>}
-
+                    {cityLoading && <p>Loading cities...</p>}
                     {cities && <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
                         <option value="">Select your city</option> 
                         {cities.map(city => (
