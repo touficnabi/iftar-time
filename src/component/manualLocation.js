@@ -1,11 +1,15 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
-const ManualLocation = ({onManualLocationSelection}) => {
+const COOKIE_EXPIRATION_DURATION = 30;
+
+const ManualLocation = ({onManualLocationSelection, locError}) => {
     const [open, setOpen] = useState(false);
     const [countries, setCountries] = useState(null);
     const [country, setCountry] = useState(null);
     const [cities, setCities] = useState();
+    const [cityLoading, setCityLoading] = useState(false);
     const [selectedCity, setSelectedCity] = useState(null);
 
     const handleManualLocationSelection = async () => {
@@ -13,10 +17,14 @@ const ManualLocation = ({onManualLocationSelection}) => {
         if (res.data[0]) {
             const {lat, lon} = res.data[0];
             onManualLocationSelection(selectedCity, country, lat, lon);
+            Cookies.set('city', selectedCity, { expires: COOKIE_EXPIRATION_DURATION })
+            Cookies.set('country', country, { expires: COOKIE_EXPIRATION_DURATION })
+            Cookies.set('lat', lat, { expires: COOKIE_EXPIRATION_DURATION })
+            Cookies.set('long', lon, { expires: COOKIE_EXPIRATION_DURATION })
+            setOpen(false)
         } else {
-            console.log('error in finding the lat long from the city')
+            alert('Your city was not found, Please select a nearby major city');
         }
-        setOpen(false)
     }
 
     const handleManualLocationTrigger = () => {
@@ -27,16 +35,20 @@ const ManualLocation = ({onManualLocationSelection}) => {
         setCountry(country);
         setCities(null); //to clean up previous selection
         setSelectedCity(""); //reset previous city
+        setCityLoading(true);
 
         try {
             const res = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", { country });
-            setCities(res.data.data);
+            const sortedCities = res.data.data.sort((a, b) => a.localeCompare(b));
+            setCities(sortedCities);
+            setCityLoading(false);
         } catch (error) {
             console.log('error finding cities for specific country', error);
         }
     }
 
     useEffect(() => {
+        locError && setOpen(true)
         axios.get("https://countriesnow.space/api/v0.1/countries")
             .then(res => setCountries(res.data.data))
             .catch(error => console.error("Error fetching countries:", error));
@@ -56,7 +68,7 @@ const ManualLocation = ({onManualLocationSelection}) => {
                             </option>
                         ))}
                     </select>}
-
+                    {cityLoading && <p>Loading cities...</p>}
                     {cities && <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
                         <option value="">Select your city</option> 
                         {cities.map(city => (
