@@ -3,10 +3,10 @@ import './App.css';
 import Page1 from './component/newPage';
 import Loading from './component/Loading';
 import axios from 'axios';
-import SelectCity from './component/SelectCity';
 import Cookies from 'js-cookie';
 import './styles/style.scss';
 import ManualLocation from './component/manualLocation';
+// import SelectCity from './component/SelectCity';
 // import Page from './component/Page';
 
 function App() {
@@ -18,10 +18,14 @@ function App() {
     const [locError, setLocError] = useState(false);
     const [getInfoFromCity, setGetInfoFromCity] = useState(false);
 
-    const onManualLocationSelection = (city, country) => {
+    const onManualLocationSelection = (city, country, lat, long) => {
         setGetInfoFromCity(true);
-        setCity(city);
-        setCountry(country);
+        city && setCity(city);
+        country && setCountry(country);
+        lat && setLat(lat);
+        long && setLong(long);
+        setLocError(false)
+        setLocation(true);
     }
 
     useEffect(() => {
@@ -65,7 +69,7 @@ function App() {
             setLocation(true);
         }).catch(err => {
             console.log(err);
-            // getLocationFromCookie();
+            getLocationFromCookie();
         })
     }
 
@@ -90,7 +94,8 @@ function App() {
         return (
             <div className="App">
                 <h1 className='error-msg'>Please turn off your adBlocker Extenstion from the browser! or</h1>
-                <SelectCity />
+                {/* <SelectCity /> */}
+                <ManualLocation locError={locError} onManualLocationSelection={onManualLocationSelection} />
             </div>
         )
     }
@@ -98,7 +103,6 @@ function App() {
     if (location){
         return(
             <div className="App">
-                {/* <CitySelect /> */}
                 <ManualLocation onManualLocationSelection={onManualLocationSelection} />
                 <Page1 getInfoFromCity={getInfoFromCity} lat={lat} long={long} city={city} country={country} />
             </div>

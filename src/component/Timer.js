@@ -1,7 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import moment, { duration } from 'moment';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 // import '../styles/_timer.scss';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 class Timer extends Component {
 
