@@ -53,7 +53,7 @@ const ManualLocation = ({onManualLocationSelection, locError}) => {
             .then(res => setCountries(res.data.data))
             .catch(error => console.error("Error fetching countries:", error));
 
-    }, [])
+    }, [locError])
     return (
         <>
             <button className='manual-location-trigger' onClick={handleManualLocationTrigger}>{open ? 'Close' : 'Change Location'}</button>
