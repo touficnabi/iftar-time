@@ -21,10 +21,10 @@ const ManualLocation = ({onManualLocationSelection, locError}) => {
             Cookies.set('country', country, { expires: COOKIE_EXPIRATION_DURATION })
             Cookies.set('lat', lat, { expires: COOKIE_EXPIRATION_DURATION })
             Cookies.set('long', lon, { expires: COOKIE_EXPIRATION_DURATION })
+            setOpen(false)
         } else {
             alert('Your city was not found, Please select a nearby major city');
         }
-        setOpen(false)
     }
 
     const handleManualLocationTrigger = () => {
@@ -39,7 +39,8 @@ const ManualLocation = ({onManualLocationSelection, locError}) => {
 
         try {
             const res = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", { country });
-            setCities(res.data.data);
+            const sortedCities = res.data.data.sort((a, b) => a.localeCompare(b));
+            setCities(sortedCities);
             setCityLoading(false);
         } catch (error) {
             console.log('error finding cities for specific country', error);
