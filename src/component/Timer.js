@@ -181,6 +181,10 @@ class Timer extends Component {
         if(prevProps.Maghrib !== this.props.Maghrib || prevProps.Fajr !== this.props.Fajr || prevProps.nextDayFajr !== this.props.nextDayFajr){
             this.setUpTime();
         }
+        if(prevProps.city !== this.props.city || prevProps.country !== this.props.country){
+            this.setState({city: this.props.city})
+            this.setState({country: this.props.country});
+        }
     }
 
     render(){
