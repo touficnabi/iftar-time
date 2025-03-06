@@ -29,20 +29,38 @@ function App() {
     }
 
     useEffect(() => {
+        //IF USER ALLOWS LOCATION
+        const getUserLocation = pos => {
+            const { latitude, longitude } = pos.coords;
+            setLat(latitude);
+            setLong(longitude);
+            setLocation(true);
+            getCity(latitude, longitude);
+        }
+
+
+        const getUserIpLocation = () => {
+
+            axios.get('https://ipapi.co/json/').then(res => {
+                const { data } = res;
+                const { latitude, longitude, city, country_name } = data;
+                setLat(latitude);
+                setLong(longitude);
+                setCity(city);
+                setCountry(country_name);
+                setLocation(true);
+            }).catch(err => {
+                console.log(err);
+                getLocationFromCookie();
+            })
+        }
+        
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
         }
-        location && document.body.classList.add('ready');
+        // location && document.body.classList.add('ready');
     },[]);
 
-    //IF USER ALLOWS LOCATION
-    const getUserLocation = pos => {
-        const { latitude, longitude } = pos.coords;
-        setLat(latitude);
-        setLong(longitude);
-        setLocation(true);
-        getCity(latitude, longitude);
-    }
 
     const getCity = (lat, long) => {
         axios.get('http://api.openweathermap.org/geo/1.0/reverse', {
@@ -57,21 +75,6 @@ function App() {
         .catch(error => console.error("Error fetching open weather map data:", error));
     }
 
-    const getUserIpLocation = () => {
-
-        axios.get('https://ipapi.co/json/').then(res => {
-            const { data } = res;
-            const { latitude, longitude, city, country_name } = data;
-            setLat(latitude);
-            setLong(longitude);
-            setCity(city);
-            setCountry(country_name);
-            setLocation(true);
-        }).catch(err => {
-            console.log(err);
-            getLocationFromCookie();
-        })
-    }
 
     //TODO implement cookie logic
     const getLocationFromCookie = () => {
