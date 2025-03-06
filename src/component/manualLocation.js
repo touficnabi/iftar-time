@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
-const ManualLocation = ({onManualLocationSelection}) => {
+const COOKIE_EXPIRATION_DURATION = 30;
+
+const ManualLocation = ({onManualLocationSelection, locError}) => {
     const [open, setOpen] = useState(false);
     const [countries, setCountries] = useState(null);
     const [country, setCountry] = useState(null);
@@ -14,6 +17,10 @@ const ManualLocation = ({onManualLocationSelection}) => {
         if (res.data[0]) {
             const {lat, lon} = res.data[0];
             onManualLocationSelection(selectedCity, country, lat, lon);
+            Cookies.set('city', selectedCity, { expires: COOKIE_EXPIRATION_DURATION })
+            Cookies.set('country', country, { expires: COOKIE_EXPIRATION_DURATION })
+            Cookies.set('lat', lat, { expires: COOKIE_EXPIRATION_DURATION })
+            Cookies.set('long', lon, { expires: COOKIE_EXPIRATION_DURATION })
         } else {
             alert('Your city was not found, Please select a nearby major city');
         }
@@ -40,6 +47,7 @@ const ManualLocation = ({onManualLocationSelection}) => {
     }
 
     useEffect(() => {
+        locError && setOpen(true)
         axios.get("https://countriesnow.space/api/v0.1/countries")
             .then(res => setCountries(res.data.data))
             .catch(error => console.error("Error fetching countries:", error));
