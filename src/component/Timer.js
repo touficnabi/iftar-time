@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import moment, { duration } from 'moment';
+import dayjs from 'dayjs';
 // import '../styles/_timer.scss';
 
 class Timer extends Component {
@@ -59,7 +60,7 @@ class Timer extends Component {
     }
 
     calculateTime = () => {
-        const now = moment();
+        const now = moment(dayjs().tz(this.props.timezone).format("YYYY-MM-DDTHH:mm:ssZ"));
         const momentFajrTime = moment(this.state.FajrTime);
         const momentMaghribTime = moment(this.state.MaghribTime);
         const nextDayMomentFajrTime = moment(this.state.nextDayFajrTime);
