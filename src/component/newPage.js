@@ -22,7 +22,8 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
         Cookies.set('method', e.target.value);
     }
 
-    const getTimingInfo = (url) => {
+    
+    const getTimingInfo = (url, controller) => {
         //TODO use day,js for local time instead of the machine time :: https://stackoverflow.com/questions/15141762/how-to-initialize-a-javascript-date-to-a-particular-time-zone
         const now   = new Date() //moment();
         const year  = now.getFullYear(); //now.year();
@@ -36,6 +37,7 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
         const utc_offset = now.toString().match(/([-+][0-9]+)\s/)[1];
 
         axios.get(url, {
+            signal: controller.signal,
             params: {
                 month,
                 year,
@@ -59,8 +61,8 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
     }
     
     useEffect(() => {
-
-        getTimingInfo(`https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=${method}`);
+        const controller = new AbortController();
+        getTimingInfo(`https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=${method}`, controller);
 
         //set up initial method from the hook or cookie
         const cookieMethod = Cookies.get('method');
@@ -71,6 +73,8 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
             defaultMethod !== null && Cookies.set('method', defaultMethod);
         }
         // method === null && setMethod(defaultMethod);
+
+        return () => controller.abort();
 
     }, [getInfoFromCity, city, defaultMethod, country, lat, long, method]);
 

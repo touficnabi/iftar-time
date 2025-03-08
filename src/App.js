@@ -29,6 +29,7 @@ function App() {
     }
 
     useEffect(() => {
+        const controller = new AbortController();
         //IF USER ALLOWS LOCATION
         const getUserLocation = pos => {
             const { latitude, longitude } = pos.coords;
@@ -40,8 +41,7 @@ function App() {
 
 
         const getUserIpLocation = () => {
-
-            axios.get('https://ipapi.co/json/').then(res => {
+            axios.get('https://ipapi.co/json/', {signal: controller.signal}).then(res => {
                 const { data } = res;
                 const { latitude, longitude, city, country_name } = data;
                 setLat(latitude);
@@ -54,11 +54,12 @@ function App() {
                 getLocationFromCookie();
             })
         }
-        
+
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
         }
         // location && document.body.classList.add('ready');
+        return () => controller.abort();
     },[]);
 
 
@@ -71,7 +72,10 @@ function App() {
                 appid: process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY
             }
         })
-        .then(res => setCity(res.data[0].name))
+        .then(res => {
+            setCity(res.data[0].name);
+            setCountry(res.data[0].state);
+        })
         .catch(error => console.error("Error fetching open weather map data:", error));
     }
 
