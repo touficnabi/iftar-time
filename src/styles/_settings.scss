@@ -30,6 +30,13 @@
         display: block;
     }
 
+    .manual-location-heading{
+        font-size: 2rem;
+        font-family: var(--secondary-font);
+        color: rgb(var(--primary-color));
+        padding: 50px 0;
+    }
+
     .container {
         display: flex;
         gap: 10px;
