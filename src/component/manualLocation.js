@@ -54,11 +54,22 @@ const ManualLocation = ({onManualLocationSelection, locError}) => {
             .catch(error => console.error("Error fetching countries:", error));
 
     }, [locError])
+
+    useEffect(() => {
+        const city = new URLSearchParams(window.location.search).get('city');
+        const country = new URLSearchParams(window.location.search).get('country');
+
+        if (city && country) {
+
+            console.log('this is city from url', city);
+            console.log('this is country from url', country);
+        }
+    }, [])
     return (
         <>
             <button className='manual-location-trigger' onClick={handleManualLocationTrigger}>{open ? 'Close' : 'Change Location'}</button>
             <div className={`manual-location-selction ${open ? 'open' : ''}`}>
-                    <h2>Select your location</h2>
+                <h2 className='manual-location-heading'>Select your location</h2>
                 <div className="container">
                     {countries && <select onChange={(e)  => fetchCities(e.target.value)} name="country" id="country">
                         <option value="">Select a country</option>
