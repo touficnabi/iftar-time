@@ -41,18 +41,32 @@ function App() {
 
 
         const getUserIpLocation = () => {
-            axios.get('https://ipapi.co/json/', {signal: controller.signal}).then(res => {
-                const { data } = res;
-                const { latitude, longitude, city, country_name } = data;
-                setLat(latitude);
-                setLong(longitude);
-                setCity(city);
-                setCountry(country_name);
+            const cookieCity = Cookies.get('city');
+            const cookieCountry = Cookies.get('country');
+            const cookieLat = Cookies.get('lat');
+            const cookieLong = Cookies.get('long');
+
+            if (cookieCity && cookieCountry && cookieLat && cookieLong) {
+                setCity(cookieCity);
+                setCountry(cookieCountry);
+                setLat(cookieLat);
+                setLong(cookieLong);
                 setLocation(true);
-            }).catch(err => {
-                console.log(err);
-                getLocationFromCookie();
-            })
+            } else {
+                axios.get('https://ipapi.co/json/', {signal: controller.signal}).then(res => {
+                    const { data } = res;
+                    const { latitude, longitude, city, country_name } = data;
+                    setLat(latitude);
+                    setLong(longitude);
+                    setCity(city);
+                    setCountry(country_name);
+                    setLocation(true);
+                }).catch(err => {
+                    console.log(err);
+                    getLocationFromCookie();
+                })
+            }
+
         }
 
         if(navigator.geolocation){
