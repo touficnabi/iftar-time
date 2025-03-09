@@ -60,7 +60,6 @@ const ManualLocation = ({onManualLocationSelection, locError}) => {
         const country = new URLSearchParams(window.location.search).get('country');
 
         if (city && country) {
-
             console.log('this is city from url', city);
             console.log('this is country from url', country);
         }
