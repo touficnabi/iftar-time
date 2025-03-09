@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useState, useEffect } from 'react';
+import {useState, useEffect } from 'react';
 import Counter from './Counter';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -16,9 +16,9 @@ const Timer = ({Fajr, Maghrib, FajrNextDay, city, country, timezone}) => {
     const [comingPrayer, setComingPrayer] = useState();
 
     const humanizeTimes = time => {
-        const timeOnly = time.split(" ");
+        // const timeOnly = time.split(" ");
 
-        const readableTime = dayjs(timeOnly, "HH:mm").format("h:mm A")
+        // const readableTime = dayjs(timeOnly, "HH:mm").format("h:mm A")
         return time;
     }
 
@@ -53,7 +53,7 @@ const Timer = ({Fajr, Maghrib, FajrNextDay, city, country, timezone}) => {
             // time is before magrib but after fajr. so must be day time and coming prayer is margib
             setComingPrayer("MAGHRIB");
             setTimeRemaining(MaghribTimeRemaining);
-        } else if (now.isAfter(formattedMaghribTime) && now.isBefore(formattedFajrTime)) {
+        } else {
             // time is after magrib but before fajr. so must be night time and coming prayer is fajr
             setComingPrayer("FAJR_NEXT_DAY");
             setTimeRemaining(FajrNextDayTimeRemaining);
