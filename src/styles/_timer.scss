@@ -55,7 +55,7 @@
     font-family: 'Exo', sans-serif;
     color: white;
 
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));;
     grid-gap: 0px;
 }
 
@@ -67,6 +67,29 @@
     padding: 10px 20px;
     border: 1px solid;
 } */
+
+.time_and_date {
+    .date {
+        display: flex;
+        font-family: var(--primary-font);
+        margin-bottom: 10px;
+        font-size: .9rem;
+
+        .day {
+            background-color: rgb(var(--primary-color));
+            color: white;
+            padding: 10px;
+            font-family: var(--secondary-font);
+        }
+
+        .month {
+            padding: 10px;
+            color: rgb(var(--primary-color));
+            border: 1px solid;
+            background-color: white;
+        }
+    }
+}
 
 .floating-box{
     background: #fff;

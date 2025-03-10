@@ -11,7 +11,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(duration);
 
-const Timer = ({Fajr, Maghrib, FajrNextDay, city, country, timezone}) => {
+const Timer = ({Fajr, Maghrib, FajrNextDay, date, city, country, timezone}) => {
     const [timeRemaining, setTimeRemaining] = useState();
     const [comingPrayer, setComingPrayer] = useState();
 
@@ -73,15 +73,15 @@ const Timer = ({Fajr, Maghrib, FajrNextDay, city, country, timezone}) => {
             return  <p>Loading</p>
         case "FAJR":
             return (
-                <Counter timeRemaining={timeRemaining} heading={"Sehri Ends in"} iftar={humanizeTimes(Maghrib)} sehri={humanizeTimes(Fajr)} city={city} country={country} />
+                <Counter timeRemaining={timeRemaining} date={date} heading={"Sehri Ends in"} iftar={humanizeTimes(Maghrib)} sehri={humanizeTimes(Fajr)} city={city} country={country} />
             )
         case "MAGHRIB":
             return (
-                <Counter timeRemaining={timeRemaining} heading={"Iftar Starts in"} iftar={humanizeTimes(Maghrib)} sehri={humanizeTimes(Fajr)} city={city} country={country} />
+                <Counter timeRemaining={timeRemaining} date={date} heading={"Iftar Starts in"} iftar={humanizeTimes(Maghrib)} sehri={humanizeTimes(Fajr)} city={city} country={country} />
             )
         case "FAJR_NEXT_DAY":
             return (
-                <Counter timeRemaining={timeRemaining} heading={"Sehri Ends in"} iftar={humanizeTimes(Maghrib)} sehri={humanizeTimes(FajrNextDay)} city={city} country={country} />
+                <Counter timeRemaining={timeRemaining} date={date} heading={"Sehri Ends in"} iftar={humanizeTimes(Maghrib)} sehri={humanizeTimes(FajrNextDay)} city={city} country={country} />
             )
     }
 }

@@ -1,4 +1,31 @@
-const Counter = ({city, country, iftar, sehri, timeRemaining, heading}) => {
+const Counter = ({city, country, iftar, sehri, date, timeRemaining, heading}) => {
+
+    //Play Adhan
+    const adhanPlay = () => {
+        const adhan = new Audio();
+        adhan.src = 'https://playground.toufic.me/iftar-staging/Adhan2.mp3';
+        adhan.play();
+        console.log('Adhan Playing')
+    }  
+
+    //Play the Adhan if the time couter hits 1 secon and then wait one second before playing the audio
+    if (parseInt(timeRemaining?.asSeconds()) === 1) {
+        setTimeout(() => {
+            adhanPlay();
+        }, [1000])
+    }
+
+    //concert the 24 hours format to 12 hours format
+    const timeConvert = time => {
+        time = time.split(" ")[0].toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+        
+        if(time.length > 1) {
+            time = time.slice(1); // Remove full string match value
+            time[5] = +time[0] < 12 ? ' AM' : ' PM'; // assign AM/PM
+            time[0] = +time[0] % 12 || 12; // Adjust hours
+        }
+        return time.join(''); // return adjusted time or original string
+    }
 
     //adding zero if less than 10
     const pad = n => {
@@ -12,7 +39,12 @@ const Counter = ({city, country, iftar, sehri, timeRemaining, heading}) => {
 
     return (
         <>
-            <div className="timer-wrapper">       
+            <div className="timer-wrapper">   
+                <div className="time_and_date">
+                    <h3 className="date">
+                        <p className="day">{date.day}</p> <p className="month">{date.month.en}</p>
+                    </h3>
+                </div>    
                 <div className="floating-box">
                     <div className="heading">
                         <h2>{heading}</h2>
@@ -46,12 +78,12 @@ const Counter = ({city, country, iftar, sehri, timeRemaining, heading}) => {
                         </div>}
                         <div className="footer-parts">
                             <div className="iftar">
-                                <p>Iftar: {iftar}</p>
+                                <p>Iftar: {timeConvert(iftar)}</p>
                             </div>
                         </div>
                         <div className="footer-parts">
                             <div className="sehri">
-                                <p>Sehri: {sehri}</p>
+                                <p>Sehri: {timeConvert(sehri)}</p>
                             </div>
                         </div>
                     </div>

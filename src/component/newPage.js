@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import Timer from './Timer';
 import Loading from './Loading';
@@ -14,17 +14,18 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
     const [Fajr, setFajr] = useState(null);
     const [Maghrib, setMaghrib] = useState(null);
     const [FajrNextDay, setFajrNextDay] = useState(null);
+    const [date, setDate] = useState(null);
     const {methods, defaultMethod} = useMethods(lat, long);
     const [method, setMethod] = useState(null);
 
     const handleUpdateMethod = e => {
         setMethod(e.target.value);
         Cookies.set('method', e.target.value);
-    }
+    }  
 
-    
     const getTimingInfo = (url, controller) => {
         //TODO use day,js for local time instead of the machine time :: https://stackoverflow.com/questions/15141762/how-to-initialize-a-javascript-date-to-a-particular-time-zone
+
         const now   = new Date() //moment();
         const year  = now.getFullYear(); //now.year();
         const month = now.getMonth() + 1; //now.month() + 1;
@@ -46,11 +47,13 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
         .then(resp => {
             const { data } = resp.data;
             const { Fajr, Maghrib } = data[day].timings;
+            const {hijri} = data[day].date;
             const FajrNextDay = data[nextDay].timings.Fajr;
 
             setFajr(Fajr);
             setMaghrib(Maghrib);
             setFajrNextDay(FajrNextDay);
+            setDate(hijri);
             setUtc_offset(utc_offset);
             setTimezone(data[day].meta.timezone);
             setIsLoaded(true);
@@ -83,7 +86,7 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
             <>
                 <div className="content">
                     <Header city={city} methods={methods} setMethod={handleUpdateMethod} defaultMethod={method} />
-                    <Timer Fajr={Fajr} Maghrib={Maghrib} FajrNextDay={FajrNextDay} utc_offset={utc_offset} timezone={timezone} city={city} country={country} />
+                    <Timer Fajr={Fajr} Maghrib={Maghrib} FajrNextDay={FajrNextDay} date={date} utc_offset={utc_offset} timezone={timezone} city={city} country={country} />
                 </div>
             </>
         )
