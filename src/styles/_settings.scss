@@ -8,6 +8,14 @@
     color: #fff;
     font-family: var(--primary-font);
     z-index: 20;
+
+    &[data-close-button='true'] {
+        top: 20px;
+        bottom: unset;
+        width: 50px;
+        border-radius: 30px;
+        font-size: 1.3rem;
+    }
 }
 
 .manual-location-selction {
@@ -40,6 +48,10 @@
     .container {
         display: flex;
         gap: 10px;
+        flex-direction: column;
+        @media screen and (min-width: 600px) {
+            flex-direction: row;
+        }
         select {
             font-family: "Exo";
             text-overflow: ellipsis;
@@ -57,6 +69,7 @@
             background-color: rgb(var(--primary-color));
             color: #fff;
             font-family: var(--primary-font);
+            padding: 10px;
             &[disabled] {
                 opacity: 0.5;
                 cursor: not-allowed;

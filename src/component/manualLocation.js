@@ -66,7 +66,7 @@ const ManualLocation = ({onManualLocationSelection, locError}) => {
     }, [])
     return (
         <>
-            <button className='manual-location-trigger' onClick={handleManualLocationTrigger}>{open ? 'Close' : 'Change Location'}</button>
+            <button className='manual-location-trigger' data-close-button={open ? true : false} onClick={handleManualLocationTrigger}>{open ? 'x' : 'Change Location'}</button>
             <div className={`manual-location-selction ${open ? 'open' : ''}`}>
                 <h2 className='manual-location-heading'>Select your location</h2>
                 <div className="container">
@@ -78,7 +78,7 @@ const ManualLocation = ({onManualLocationSelection, locError}) => {
                             </option>
                         ))}
                     </select>}
-                    {cityLoading && <p>Loading cities...</p>}
+                    {cityLoading && <p style={{border: '1px solid', color: "#c59e42", fontFamily: 'exo', width: '100%', lineHeight: '2.2'}}>Loading cities...</p>}
                     {cities && <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
                         <option value="">Select your city</option> 
                         {cities.map(city => (
