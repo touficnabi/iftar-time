@@ -57,6 +57,10 @@
             background-color: rgb(var(--primary-color));
             color: #fff;
             font-family: var(--primary-font);
+            &[disabled] {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
         }
     }
 

@@ -86,7 +86,7 @@ const ManualLocation = ({onManualLocationSelection, locError}) => {
                         ))}
                     </select>}
 
-                    {selectedCity && <button onClick={handleManualLocationSelection}>Confirm</button>}
+                    {<button disabled={selectedCity ? false : true} onClick={handleManualLocationSelection}>Confirm</button>}
                 </div>
                 
             </div>
