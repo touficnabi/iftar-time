@@ -78,7 +78,7 @@ const ManualLocation = ({onManualLocationSelection, locError}) => {
                             </option>
                         ))}
                     </select>}
-                    {cityLoading && <p style={{border: '1px solid', color: "#c59e42", fontFamily: 'exo', width: '100%', lineHeight: '2.2'}}>Loading cities...</p>}
+                    {cityLoading && <p style={{border: '1px solid', color: "#c59e42", fontFamily: 'exo', width: '100%', lineHeight: '2.2', opacity: .5}}>Loading cities...</p>}
                     {cities && <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
                         <option value="">Select your city</option> 
                         {cities.map(city => (
