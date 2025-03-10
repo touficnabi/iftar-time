@@ -57,9 +57,14 @@ header {
             align-items: center;
             justify-content: center;
             font-family: 'Exo', sans-serif;
+            background-color: white;
+            color: rgb(var(--primary-color));
+            border-bottom: 1px solid;
             @media (min-width: 600px) {
                 right: 20px;
+                border-bottom: none;
             }
+            & > h3 {padding: 0 10px;}
             select {
                 font-family: 'Exo';
                 text-overflow: ellipsis;
@@ -69,7 +74,7 @@ header {
                 border:none;
                 border-radius: 0;
                 width: 100%;
-                border-bottom: 1px solid;
+                border-left: 1px solid;
                 background-color: white;
                 text-align: center;
                 @media (min-width: 500px) {
