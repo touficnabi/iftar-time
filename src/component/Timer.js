@@ -24,7 +24,7 @@ const Timer = ({Fajr, Maghrib, FajrNextDay, city, country, timezone}) => {
 
     const formatTime = (time, nextDay) => {
         const timeOnly = time.match(/\d{2}:\d{2}/)[0];  // Extract the time (HH:mm)
-        const currentDate = dayjs().format('YYYY-MM-DD');  // Get today's date (YYYY-MM-DD)
+        const currentDate = dayjs().tz(timezone).format('YYYY-MM-DD');  // Get today's date (YYYY-MM-DD)
         const formattedTime = dayjs.tz(`${currentDate} ${timeOnly}`, "YYYY-MM-DD HH:mm", timezone);  // Return dayjs object
     
         if (nextDay) return formattedTime.add(1, "day");  // Add a day if it's the next day's time
@@ -66,7 +66,7 @@ const Timer = ({Fajr, Maghrib, FajrNextDay, city, country, timezone}) => {
         }, [1000])
 
         return () => clearInterval(Interval);
-    }, [Fajr, Maghrib, FajrNextDay, timezone, city, country]);
+    }, [Fajr, Maghrib, FajrNextDay, timezone, city, country, calculateTime]);
 
     switch(comingPrayer) {
         default: 
