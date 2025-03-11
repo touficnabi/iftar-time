@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import { CiEdit, CiCircleRemove } from "react-icons/ci";
 
 const COOKIE_EXPIRATION_DURATION = 30;
 
-const ManualLocation = ({onManualLocationSelection, locError}) => {
+const ManualLocation = ({onManualLocationSelection, locError, existingCity, existingCountry}) => {
     const [open, setOpen] = useState(false);
     const [countries, setCountries] = useState(null);
     const [country, setCountry] = useState(null);
@@ -66,7 +67,9 @@ const ManualLocation = ({onManualLocationSelection, locError}) => {
     }, [])
     return (
         <>
-            <button className='manual-location-trigger' data-close-button={open ? true : false} onClick={handleManualLocationTrigger}>{open ? 'x' : 'Change Location'}</button>
+            <button className='manual-location-trigger' onClick={handleManualLocationTrigger}>
+                {existingCity ?? selectedCity}, {existingCountry ?? country} <span>{<CiEdit />}</span>
+            </button>
             <div className={`manual-location-selction ${open ? 'open' : ''}`}>
                 <h2 className='manual-location-heading'>Select your location</h2>
                 <div className="container">
@@ -78,7 +81,7 @@ const ManualLocation = ({onManualLocationSelection, locError}) => {
                             </option>
                         ))}
                     </select>}
-                    {cityLoading && <p style={{border: '1px solid', color: "#c59e42", fontFamily: 'exo', width: '100%', lineHeight: '2.2', opacity: .5}}>Loading cities...</p>}
+                    {cityLoading && <div className='city-loading'>Loading cities...</div>}
                     {cities && <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
                         <option value="">Select your city</option> 
                         {cities.map(city => (
@@ -88,7 +91,7 @@ const ManualLocation = ({onManualLocationSelection, locError}) => {
 
                     {<button disabled={selectedCity ? false : true} onClick={handleManualLocationSelection}>Confirm</button>}
                 </div>
-                
+                <button className='manual-location_close-button' onClick={handleManualLocationTrigger} ><CiCircleRemove /></button>
             </div>
         </>
     )

@@ -116,7 +116,7 @@ function App() {
             <div className="App">
                 <h1 className='error-msg'>Please turn off your adBlocker Extenstion from the browser! or</h1>
                 {/* <SelectCity /> */}
-                <ManualLocation locError={locError} onManualLocationSelection={onManualLocationSelection} />
+                <ManualLocation existingCity={city} existingCountry={country} locError={locError} onManualLocationSelection={onManualLocationSelection} />
             </div>
         )
     }
@@ -124,7 +124,7 @@ function App() {
     if (location){
         return(
             <div className="App">
-                <ManualLocation onManualLocationSelection={onManualLocationSelection} />
+                <ManualLocation existingCity={city} existingCountry={country} onManualLocationSelection={onManualLocationSelection} />
                 <Page1 getInfoFromCity={getInfoFromCity} lat={lat} long={long} city={city} country={country} />
             </div>
         )
