@@ -24,12 +24,12 @@ html {
     min-height: 100vh;
 
     .sehri & {
-        background: url('../../public/sunset-bg.jpg') no-repeat center center /cover;
+        background: url('../images/sunset-bg.jpg') no-repeat center center /cover;
 
     }
 
     .iftar & {
-        background: url('../../public/sunrise-bg.jpg') no-repeat center center /cover;
+        background: url('../images/sunrise-bg.jpg') no-repeat center center /cover;
     }
 }
 
