@@ -49,16 +49,22 @@ const Timer = ({Fajr, Maghrib, FajrNextDay, date, city, country, timezone}) => {
             //time now is before magrib and before fajr. so must be morning
             setComingPrayer("FAJR");
             setTimeRemaining(FajrTimeRemaining);
+            
+            document.body.className = '';
             document.body.classList.add('sehri')
         } else if (now.isBefore(formattedMaghribTime) && now.isAfter(formattedFajrTime)) {
             // time is before magrib but after fajr. so must be day time and coming prayer is margib
             setComingPrayer("MAGHRIB");
             setTimeRemaining(MaghribTimeRemaining);
+            
+            document.body.className = '';
             document.body.classList.add('iftar')
         } else {
             // time is after magrib but before fajr. so must be night time and coming prayer is fajr
             setComingPrayer("FAJR_NEXT_DAY");
             setTimeRemaining(FajrNextDayTimeRemaining);
+
+            document.body.className = '';
             document.body.classList.add('sehri')
         }
     }
@@ -73,7 +79,10 @@ const Timer = ({Fajr, Maghrib, FajrNextDay, date, city, country, timezone}) => {
 
     switch(comingPrayer) {
         default: 
-            return  <p>Loading</p>
+            return  <div className='box-loading'>
+                        <div className='skelaton'></div>
+                        <div className='skelaton' style={{ height: '10px', marginTop: 0}}></div>
+                    </div>
         case "FAJR":
             return (
                 <Counter timeRemaining={timeRemaining} date={date} heading={"Sehri Ends in"} iftar={humanizeTimes(Maghrib)} sehri={humanizeTimes(Fajr)} city={city} country={country} />

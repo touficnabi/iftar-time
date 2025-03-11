@@ -1,6 +1,7 @@
 :root {
     // --primary-color: #c59e42;
     --primary-color: 197, 158, 66;
+    --backdrop-color: 255, 255, 255;
     --primary-font: 'Exo', sans-serif;
     --secondary-font: "DM Serif Display", sans-serif;
 }
@@ -24,12 +25,17 @@ html {
     min-height: 100vh;
 
     .sehri & {
-        background: url('../images/sunset-bg.jpg') no-repeat center center /cover;
-
+        background: url('../images/sunrise-bg-1125.jpg') no-repeat center center /cover;
+        @media screen and (min-width: 600px) {
+            background: url('../images/sunrise-bg.jpg') no-repeat center center /cover;
+        }
     }
 
     .iftar & {
-        background: url('../images/sunrise-bg.jpg') no-repeat center center /cover;
+        background: url('../images/sunset-bg-1125.jpg') no-repeat center center /cover;
+        @media screen and (min-width: 600px) {
+            background: url('../images/sunset-bg.jpg') no-repeat center center /cover;
+        }
     }
 }
 
@@ -43,7 +49,7 @@ html {
 
 footer {
     font-family: var(--primary-font);
-    background-color: rgb(var(--primary-color));
+    background-color: transparent;
     color: white;
     padding: 20px;
     @media (min-width: 500px) {
@@ -76,25 +82,23 @@ footer {
             align-items: center;
             justify-content: center;
             font-family: 'Exo', sans-serif;
-            background-color: white;
-            color: rgb(var(--primary-color));
-            border-bottom: 1px solid;
+            background-color: rgba(var(--backdrop-color), .25);
+            color: rgb(var(--backdrop-color));
+            border: 1px solid;
             @media (min-width: 600px) {
-                right: 20px;
-                border-bottom: none;
             }
             & > h3 {padding: 0 10px;}
             select {
                 font-family: 'Exo';
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                color: rgb(var(--primary-color));
+                color: rgb(var(--backdrop-color));
                 padding: 6px;
                 border:none;
                 border-radius: 0;
                 width: 100%;
                 border-left: 1px solid;
-                background-color: white;
+                background-color: transparent;
                 text-align: center;
                 @media (min-width: 500px) {
                     max-width: 220px;

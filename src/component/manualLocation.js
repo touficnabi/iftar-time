@@ -68,7 +68,7 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
     return (
         <div className='manual-location'>
             <button className='manual-location-trigger' onClick={handleManualLocationTrigger}>
-                {existingCity ?? selectedCity}, {existingCountry ?? country} <span>{<CiEdit />}</span>
+                <>{existingCity ?? selectedCity}, {existingCountry ?? country}</> <span>{<CiEdit />}</span>
             </button>
             <div className={`manual-location-selction ${open ? 'open' : ''}`}>
                 <h2 className='manual-location-heading'>Select your location</h2>
