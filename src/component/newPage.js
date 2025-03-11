@@ -5,6 +5,12 @@ import Loading from './Loading';
 import useMethods from '../hooks/useMethods';
 import Header from './Header';
 import Cookies from 'js-cookie';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
 
@@ -29,11 +35,11 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
         const now   = new Date() //moment();
         const year  = now.getFullYear(); //now.year();
         const month = now.getMonth() + 1; //now.month() + 1;
-        const day   = now.getDate() - 1; //now.day();
+        // const day   = now.getDate() - 1; //now.day(); //array index in the api response starts from 0 so we need to extract one day to get the right date from the api response
  
         const tomorrow = new Date(now);
         tomorrow.setDate(tomorrow.getDate() + 1); //this gives the next day | if today is the last day of the month, it gives the first day of the next month
-        const nextDay = tomorrow.getDate() - 1; //array index starts from 0
+        const nextDay = tomorrow.getDate() - 1; //array index in the api response starts from 0 so we need to extract one day to get the right date from the api response
  
         const utc_offset = now.toString().match(/([-+][0-9]+)\s/)[1];
 
@@ -46,6 +52,7 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
         })
         .then(resp => {
             const { data } = resp.data;
+            const day = +dayjs().tz(data[0].meta.timezone).date() - 1; //array index in the api response starts from 0 so we need to extract one day to get the right date from the api response
             const { Fajr, Maghrib } = data[day].timings;
             const {hijri} = data[day].date;
             const FajrNextDay = data[nextDay].timings.Fajr;
