@@ -1,10 +1,7 @@
-import React from "react";
 const Header = ({city,  methods, setMethod, defaultMethod}) => {
     return (
-        <header>
+        <footer>
             <div className="header-wrapper">
-                {/* <h1>Iftar and Sehri Time in <u>{city}</u></h1> */}
-                <h1>🕌 Iftar and Sehri Time {city && `in ${city}`}</h1>
                 <div className="method">
                     <h3>Source: </h3>
                     <select onChange={setMethod} name="method" defaultValue={defaultMethod}>
@@ -12,7 +9,7 @@ const Header = ({city,  methods, setMethod, defaultMethod}) => {
                     </select>
                 </div>
             </div>
-        </header>
+        </footer>
     );
 }
 

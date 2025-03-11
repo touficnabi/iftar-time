@@ -3,7 +3,7 @@ import axios from 'axios';
 import Timer from './Timer';
 import Loading from './Loading';
 import useMethods from '../hooks/useMethods';
-import Header from './Header';
+import Header from './Footer';
 import Cookies from 'js-cookie';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -92,8 +92,8 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
         return (
             <>
                 <div className="content">
-                    <Header city={city} methods={methods} setMethod={handleUpdateMethod} defaultMethod={method} />
                     <Timer Fajr={Fajr} Maghrib={Maghrib} FajrNextDay={FajrNextDay} date={date} utc_offset={utc_offset} timezone={timezone} city={city} country={country} />
+                    <Header city={city} methods={methods} setMethod={handleUpdateMethod} defaultMethod={method} />
                 </div>
             </>
         )
