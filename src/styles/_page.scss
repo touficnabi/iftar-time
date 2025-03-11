@@ -16,6 +16,23 @@ html {
     // padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
+.App {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    .sehri & {
+        background: url('../../public/sunset-bg.jpg') no-repeat center center /cover;
+
+    }
+
+    .iftar & {
+        background: url('../../public/sunrise-bg.jpg') no-repeat center center /cover;
+    }
+}
+
 
 .bottom-container {
     display: flex;
@@ -40,6 +57,7 @@ footer {
             display: flex;
             width: min(100vw - 40px, 1170px);
             margin-inline: auto;
+            flex-direction: row-reverse;
         }
         
         h1 {
@@ -89,6 +107,7 @@ footer {
             align-items: center;
             justify-content: space-around;
             margin-top: 15px;
+            @media screen and (min-width: 600px) { margin-top: 0px; }
             border: 1px solid;
             .date {
                 padding: 0 20px;

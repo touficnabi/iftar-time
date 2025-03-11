@@ -9,6 +9,9 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 
+import sunsetBg1125 from "./../images/sunset-bg-1125.jpg";
+import sunsetBg800 from "./../images/sunset-bg.jpg";
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -98,10 +101,10 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
     if (isLoaded) {
         return (
             <>
-                <div className="content">
+                {/* <div className="content"> */}
                     <Timer Fajr={Fajr} Maghrib={Maghrib} FajrNextDay={FajrNextDay} date={date} utc_offset={utc_offset} timezone={timezone} city={city} country={country} />
                     <Footer Fajr={Fajr} Maghrib={Maghrib} date={date}  methods={methods} setMethod={handleUpdateMethod} defaultMethod={method} />
-                </div>
+                {/* </div> */}
             </>
         )
     }

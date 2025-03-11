@@ -49,14 +49,17 @@ const Timer = ({Fajr, Maghrib, FajrNextDay, date, city, country, timezone}) => {
             //time now is before magrib and before fajr. so must be morning
             setComingPrayer("FAJR");
             setTimeRemaining(FajrTimeRemaining);
+            document.body.classList.add('sehri')
         } else if (now.isBefore(formattedMaghribTime) && now.isAfter(formattedFajrTime)) {
             // time is before magrib but after fajr. so must be day time and coming prayer is margib
             setComingPrayer("MAGHRIB");
             setTimeRemaining(MaghribTimeRemaining);
+            document.body.classList.add('iftar')
         } else {
             // time is after magrib but before fajr. so must be night time and coming prayer is fajr
             setComingPrayer("FAJR_NEXT_DAY");
             setTimeRemaining(FajrNextDayTimeRemaining);
+            document.body.classList.add('sehri')
         }
     }
 

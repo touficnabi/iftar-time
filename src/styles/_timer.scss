@@ -2,11 +2,12 @@
 
 
 .timer-wrapper{
-    background: url(../images/bg.jpg) repeat;
+    // background: url(../images/bg.jpg) repeat;
     // min-height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    // justify-content: center;
+    margin-top: 30px;
     flex-direction: column;
     flex: 1;
     background-size: 47%;
@@ -99,6 +100,7 @@
     font-family: var(--secondary-font);
     max-width: 90%;
     width: 100%;
+    margin-bottom: 30px;
 }
 
 .floating-box .heading{

@@ -66,7 +66,7 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
         }
     }, [])
     return (
-        <>
+        <div className='manual-location'>
             <button className='manual-location-trigger' onClick={handleManualLocationTrigger}>
                 {existingCity ?? selectedCity}, {existingCountry ?? country} <span>{<CiEdit />}</span>
             </button>
@@ -93,7 +93,7 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
                 </div>
                 <button className='manual-location_close-button' onClick={handleManualLocationTrigger} ><CiCircleRemove /></button>
             </div>
-        </>
+        </div>
     )
 }
 
