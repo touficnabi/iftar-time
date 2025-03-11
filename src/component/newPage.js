@@ -3,7 +3,7 @@ import axios from 'axios';
 import Timer from './Timer';
 import Loading from './Loading';
 import useMethods from '../hooks/useMethods';
-import Header from './Footer';
+import Footer from './Footer';
 import Cookies from 'js-cookie';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -15,6 +15,7 @@ dayjs.extend(timezone);
 const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
 
     const [isLoaded, setIsLoaded] = useState(false);
+    const [error, setError] = useState(null);
     const [utc_offset, setUtc_offset] = useState(null);
     const [timezone, setTimezone] = useState(null);
     const [Fajr, setFajr] = useState(null);
@@ -42,7 +43,7 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
         const nextDay = tomorrow.getDate() - 1; //array index in the api response starts from 0 so we need to extract one day to get the right date from the api response
  
         const utc_offset = now.toString().match(/([-+][0-9]+)\s/)[1];
-
+        setIsLoaded(false);
         axios.get(url, {
             signal: controller.signal,
             params: {
@@ -66,7 +67,10 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
             setIsLoaded(true);
         })
         .catch(err => {
-            console.log('prayer timing error', err);
+            if (err.message !== "canceled" ) {
+                console.log('prayer timing error', err);
+                setError(err)
+            }
         })
     }
     
@@ -88,12 +92,15 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
 
     }, [getInfoFromCity, city, defaultMethod, country, lat, long, method]);
 
+
+    if (error) return <h3>There was an error. Please refresh the page!</h3>
+
     if (isLoaded) {
         return (
             <>
                 <div className="content">
                     <Timer Fajr={Fajr} Maghrib={Maghrib} FajrNextDay={FajrNextDay} date={date} utc_offset={utc_offset} timezone={timezone} city={city} country={country} />
-                    <Header city={city} methods={methods} setMethod={handleUpdateMethod} defaultMethod={method} />
+                    <Footer Fajr={Fajr} Maghrib={Maghrib} date={date}  methods={methods} setMethod={handleUpdateMethod} defaultMethod={method} />
                 </div>
             </>
         )

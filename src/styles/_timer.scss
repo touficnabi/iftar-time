@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo:wght@700&family=DM+Serif+Text&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo:wght@700&family=DM+Serif+Display&display=swap');
 
 
 .timer-wrapper{
@@ -96,7 +96,7 @@
     border-radius: 8px;
     box-shadow: 0 0 40px rgba(0,0,0,.1);
     font-size: 17px;
-    font-family: 'DM Serif Text', sans-serif;
+    font-family: var(--secondary-font);
     max-width: 90%;
     width: 100%;
 }

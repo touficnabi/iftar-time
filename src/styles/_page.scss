@@ -2,7 +2,7 @@
     // --primary-color: #c59e42;
     --primary-color: 197, 158, 66;
     --primary-font: 'Exo', sans-serif;
-    --secondary-font: "DM Serif Text", sans-serif;
+    --secondary-font: "DM Serif Display", sans-serif;
 }
 
 html {
@@ -25,13 +25,14 @@ html {
 }
 
 footer {
+    font-family: var(--primary-font);
     background-color: rgb(var(--primary-color));
     color: white;
-    padding: 20px 0 0 0;
+    padding: 20px;
     @media (min-width: 500px) {
         padding: 10px;
     }
-    .header-wrapper{
+    .footer-wrapper{
         
         align-items: center;
         justify-content: space-between;
@@ -80,6 +81,34 @@ footer {
                 @media (min-width: 500px) {
                     max-width: 220px;
                     text-align: left;
+                }
+            }
+        }
+        .footer-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin-top: 15px;
+            border: 1px solid;
+            .date {
+                padding: 0 20px;
+                .day {
+                    font-size: 3.3rem;
+                    font-family: var(--secondary-font);
+                }
+                .month {
+                    font-size: .7rem;
+                }
+            }
+            & >  * {
+                
+            }
+            & > p {
+                padding: 30px 20px;
+                font-size: .8rem;
+                &.center {
+                    border-left: 1px solid;
+                    border-right: 1px solid;
                 }
             }
         }
