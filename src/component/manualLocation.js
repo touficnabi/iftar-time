@@ -82,7 +82,7 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
                 : (
                     <div className="container">
                         {countries && <select onChange={(e)  => fetchCities(e.target.value)} value={country} name="country" id="country">
-                            <option value="">Select a country</option>
+                            <option>Select a country</option>
                             {countries.map(country => (
                                 <option key={country.iso3} value={country.country}>
                                     {country.country}
@@ -91,7 +91,7 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
                         </select>}
                         {cityLoading && <div className='city-loading'>Loading cities...</div>}
                         {cities && <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
-                            <option value="">Select your city</option> 
+                            <option>Select your city</option> 
                             {cities.map(city => (
                                 <option key={city.value} value={city.value}>{city.value}</option>
                             ))}
