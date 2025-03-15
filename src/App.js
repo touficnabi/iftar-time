@@ -69,9 +69,13 @@ function App() {
 
         }
 
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
+        const getLocation = () => {
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
+            }
         }
+
+        getLocation();
         // location && document.body.classList.add('ready');
         return () => controller.abort();
     },[]);
