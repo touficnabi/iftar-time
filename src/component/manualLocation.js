@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 // import countryData from './../data/city-country.json';
-import Select from "react-dropdown-select";
 import Cookies from 'js-cookie';
-import { CiEdit, CiCircleRemove } from "react-icons/ci";
+import { CiEdit } from "react-icons/ci";
 import ChangeCity from './changeCity';
 
 const COOKIE_EXPIRATION_DURATION = 30;
