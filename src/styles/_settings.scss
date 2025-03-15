@@ -34,11 +34,11 @@
     box-sizing: border-box;
     z-index: 10;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     &.open {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
     }
 
     .manual-location-heading{
@@ -104,3 +104,12 @@
     font-size: 2.5rem;
 }
 
+.error {
+    background: #de2718;
+    color: white;
+    padding: 10px;
+    font-family: var(--primary-font);
+    line-height: 1.4;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}

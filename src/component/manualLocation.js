@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 // import countryData from './../data/city-country.json';
+import Select from "react-dropdown-select";
 import Cookies from 'js-cookie';
 import { CiEdit, CiCircleRemove } from "react-icons/ci";
+import ChangeCity from './changeCity';
 
 const COOKIE_EXPIRATION_DURATION = 30;
 
@@ -10,9 +12,10 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
     const [open, setOpen] = useState(false);
     const [countries, setCountries] = useState(null);
     const [country, setCountry] = useState(null);
-    const [cities, setCities] = useState();
+    const [cities, setCities] = useState(null);
     const [cityLoading, setCityLoading] = useState(false);
     const [selectedCity, setSelectedCity] = useState(null);
+    const [error, setError] = useState(null);
     const [geoLoading, setGeoLoading] = useState(false);
 
     const handleManualLocationSelection = async () => {
@@ -29,15 +32,20 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
             setOpen(false);
         } else {
             setGeoLoading(false);
-            alert('Your city was not found, Please select a nearby major city');
+            setError('Your city was not found, Please select a nearby major city');
         }
     }
 
     const handleManualLocationTrigger = () => {
+        setCountry(null);
+        setCities(null);
+        setSelectedCity(null);
+        setError(null);
         setOpen(prevState => !prevState);
     }
     
     const fetchCities = async country => {
+        setError(null); //clearing the previous errors.
         setCountry(country);
         setCities(null); //to clean up previous selection
         setSelectedCity(""); //reset previous city
@@ -49,7 +57,10 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
             setCities(sortedCities);
             setCityLoading(false);
         } catch (error) {
-            console.log('error finding cities for specific country', error);
+            if (error) {
+                setError('There was an error finding the cities of the selected Country.')
+                setCityLoading(false);
+            }
         }
     }
 
@@ -75,33 +86,21 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
             <button className='manual-location-trigger' onClick={handleManualLocationTrigger}>
                 <>{existingCity ?? selectedCity}, {existingCountry ?? country}</> <span>{<CiEdit />}</span>
             </button>
-            <div className={`manual-location-selction ${open ? 'open' : ''}`}>
-                <h2 className='manual-location-heading'>Select your location</h2>
-                {geoLoading
-                ? <div className='manual-location-geo-loading'>Loading info...</div>
-                : (
-                    <div className="container">
-                        {countries && <select onChange={(e)  => fetchCities(e.target.value)} value={country} name="country" id="country">
-                            <option>Select a country</option>
-                            {countries.map(country => (
-                                <option key={country.iso3} value={country.country}>
-                                    {country.country}
-                                </option>
-                            ))}
-                        </select>}
-                        {cityLoading && <div className='city-loading'>Loading cities...</div>}
-                        {cities && <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
-                            <option>Select your city</option> 
-                            {cities.map(city => (
-                                <option key={city.value} value={city.value}>{city.value}</option>
-                            ))}
-                        </select>}
-
-                        {<button disabled={selectedCity ? false : true} onClick={handleManualLocationSelection}>Confirm</button>}
-                    </div>
-                )}
-                <button className='manual-location_close-button' onClick={handleManualLocationTrigger} ><CiCircleRemove /></button>
-            </div>
+            {open && (
+                <ChangeCity 
+                    error={error}
+                    geoLoading={geoLoading}
+                    countries={countries} 
+                    fetchCities={fetchCities}
+                    country={country}
+                    cityLoading={cityLoading}
+                    cities={cities}
+                    selectedCity={selectedCity}
+                    setSelectedCity={setSelectedCity}
+                    handleManualLocationSelection={handleManualLocationSelection}
+                    handleManualLocationTrigger={handleManualLocationTrigger}
+                />
+            )}
         </div>
     )
 }
