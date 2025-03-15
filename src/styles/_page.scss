@@ -3,7 +3,7 @@
     --primary-color: 197, 158, 66;
     --backdrop-color: 255, 255, 255;
     --primary-font: 'Exo', sans-serif;
-    --secondary-font: "DM Serif Display", sans-serif;
+    --secondary-font: 'DM Serif Display', sans-serif;
 }
 
 html {
@@ -85,6 +85,10 @@ footer {
             background-color: rgba(var(--backdrop-color), .25);
             color: rgb(var(--backdrop-color));
             border: 1px solid;
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             @media (min-width: 600px) {
             }
             & > h3 {padding: 0 10px;}

@@ -9,9 +9,6 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 
-import sunsetBg1125 from "./../images/sunset-bg-1125.jpg";
-import sunsetBg800 from "./../images/sunset-bg.jpg";
-
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -25,8 +22,8 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
     const [Maghrib, setMaghrib] = useState(null);
     const [FajrNextDay, setFajrNextDay] = useState(null);
     const [date, setDate] = useState(null);
-    const {methods, defaultMethod} = useMethods(lat, long);
-    const [method, setMethod] = useState(null);
+    const {methods, defaultMethod} = useMethods(lat, long, {lat, long});
+    const [method, setMethod] = useState(defaultMethod);
 
     const handleUpdateMethod = e => {
         setMethod(e.target.value);
@@ -82,13 +79,13 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
         getTimingInfo(`https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=${method}`, controller);
 
         //set up initial method from the hook or cookie
-        const cookieMethod = Cookies.get('method');
-        if (cookieMethod){
-            cookieMethod !== null && setMethod(cookieMethod);
-        } else {
-            setMethod(defaultMethod);
-            defaultMethod !== null && Cookies.set('method', defaultMethod);
-        }
+        // const cookieMethod = Cookies.get('method');
+        // if (cookieMethod){
+        //     cookieMethod !== null && setMethod(cookieMethod);
+        // } else {
+        //     setMethod(defaultMethod);
+        //     defaultMethod !== null && Cookies.set('method', defaultMethod);
+        // }
         // method === null && setMethod(defaultMethod);
 
         return () => controller.abort();

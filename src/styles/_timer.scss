@@ -147,11 +147,15 @@
     padding: 6px;
     background: rgba(var(--backdrop-color), .25);
     border-radius: 3px;
-    margin: 2px 0;
+    margin: 0 2px;
     width: 100%;
     max-width: 67px;
     min-width: 67px;
     color: rgb(var(--backdrop-color));
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    // box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     // border: 2px solid rgba(197, 158, 64, 0.12);
 }
 
