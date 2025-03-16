@@ -1,0 +1,5 @@
+{
+    "editor.fontLigatures": true,
+    // "editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace"
+    "editor.fontFamily": "'Jetbrains Mono', Menlo, Monaco, 'Courier New', monospace"
+}

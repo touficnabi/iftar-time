@@ -76,6 +76,8 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
     
     useEffect(() => {
         const controller = new AbortController();
+        //setting updated defaultMethod to the method
+        setMethod(defaultMethod);
         getTimingInfo(`https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=${method}`, controller);
 
         //set up initial method from the hook or cookie
