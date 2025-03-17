@@ -22,7 +22,7 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
     const [Maghrib, setMaghrib] = useState(null);
     const [FajrNextDay, setFajrNextDay] = useState(null);
     const [date, setDate] = useState(null);
-    const {methods, defaultMethod} = useMethods(lat, long, {lat, long});
+    const {methods, defaultMethod} = useMethods(lat, long);
     const [method, setMethod] = useState(defaultMethod);
 
     const handleUpdateMethod = e => {
@@ -95,7 +95,7 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
     }, [getInfoFromCity, city, defaultMethod, country, lat, long, method]);
 
 
-    if (error) return <h3>There was an error. Please refresh the page!</h3>
+    if (error) return <h3 className='error'>There was an error. Please refresh the page!</h3>
 
     if (isLoaded) {
         return (

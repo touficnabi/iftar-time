@@ -30,7 +30,7 @@ const ChangeCity = ({
                             ))}
                         </select>}
                         {cityLoading && <div className='city-loading'>Loading cities...</div>}
-                        {cities && <Select options={cities} loading onChange={(values) => setSelectedCity(values)} />}
+                        {/* {cities && <Select options={cities} loading onChange={(values) => setSelectedCity(values)} />} */}
                         {cities && <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
                             <option>Select your city</option> 
                             {cities.map(city => (

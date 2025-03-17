@@ -64,7 +64,8 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
     }
 
     useEffect(() => {
-        locError && setOpen(true)
+        locError && setOpen(true);
+        //TODO: impmenet this (https://github.com/dr5hn/countries-states-cities-database) in toufic.me then make calls from there
         axios.get("https://countriesnow.space/api/v0.1/countries")
             .then(res => setCountries(res.data.data))
             .catch(error => console.error("Error fetching countries:", error));
