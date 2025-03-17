@@ -22,60 +22,61 @@ const Timer = ({Fajr, Maghrib, FajrNextDay, date, city, country, timezone}) => {
         return time;
     }
 
-    const formatTime = (time, nextDay) => {
-        const timeOnly = time.match(/\d{2}:\d{2}/)[0];  // Extract the time (HH:mm)
-        const currentDate = dayjs().tz(timezone).format('YYYY-MM-DD');  // Get today's date (YYYY-MM-DD)
-        const formattedTime = dayjs.tz(`${currentDate} ${timeOnly}`, "YYYY-MM-DD HH:mm", timezone);  // Return dayjs object
     
-        if (nextDay) return formattedTime.add(1, "day");  // Add a day if it's the next day's time
-        return formattedTime;
-    }
     
-    const calculateTime = () => {
-        // Get current time as a dayjs object in the chosen timezone
-        const now = dayjs().tz(timezone);  // Keep as a dayjs object, not a string
-    
-        // Ensure formatTime returns dayjs objects
-        const formattedFajrTime = formatTime(Fajr);
-        const formattedMaghribTime = formatTime(Maghrib);
-        const formattedNextDayFajrTime = formatTime(FajrNextDay, true);  // Pass `true` for the next day's time
-    
-        // Calculate the remaining time by getting the difference in milliseconds
-        const FajrTimeRemaining = dayjs.duration(formattedFajrTime.diff(now));
-        const MaghribTimeRemaining = dayjs.duration(formattedMaghribTime.diff(now));
-        const FajrNextDayTimeRemaining = dayjs.duration(formattedNextDayFajrTime.diff(now));
-    
-        if(now.isBefore(formattedMaghribTime) && now.isBefore(formattedFajrTime)){
-            //time now is before magrib and before fajr. so must be morning
-            setComingPrayer("FAJR");
-            setTimeRemaining(FajrTimeRemaining);
-            
-            document.body.className = '';
-            document.body.classList.add('sehri')
-        } else if (now.isBefore(formattedMaghribTime) && now.isAfter(formattedFajrTime)) {
-            // time is before magrib but after fajr. so must be day time and coming prayer is margib
-            setComingPrayer("MAGHRIB");
-            setTimeRemaining(MaghribTimeRemaining);
-            
-            document.body.className = '';
-            document.body.classList.add('iftar')
-        } else {
-            // time is after magrib but before fajr. so must be night time and coming prayer is fajr
-            setComingPrayer("FAJR_NEXT_DAY");
-            setTimeRemaining(FajrNextDayTimeRemaining);
-
-            document.body.className = '';
-            document.body.classList.add('sehri')
-        }
-    }
-
     useEffect(() => {
+        const formatTime = (time, nextDay) => {
+            const timeOnly = time.match(/\d{2}:\d{2}/)[0];  // Extract the time (HH:mm)
+            const currentDate = dayjs().tz(timezone).format('YYYY-MM-DD');  // Get today's date (YYYY-MM-DD)
+            const formattedTime = dayjs.tz(`${currentDate} ${timeOnly}`, "YYYY-MM-DD HH:mm", timezone);  // Return dayjs object
+        
+            if (nextDay) return formattedTime.add(1, "day");  // Add a day if it's the next day's time
+            return formattedTime;
+        }
+        
+        const calculateTime = () => {
+            // Get current time as a dayjs object in the chosen timezone
+            const now = dayjs().tz(timezone);  // Keep as a dayjs object, not a string
+        
+            // Ensure formatTime returns dayjs objects
+            const formattedFajrTime = formatTime(Fajr);
+            const formattedMaghribTime = formatTime(Maghrib);
+            const formattedNextDayFajrTime = formatTime(FajrNextDay, true);  // Pass `true` for the next day's time
+        
+            // Calculate the remaining time by getting the difference in milliseconds
+            const FajrTimeRemaining = dayjs.duration(formattedFajrTime.diff(now));
+            const MaghribTimeRemaining = dayjs.duration(formattedMaghribTime.diff(now));
+            const FajrNextDayTimeRemaining = dayjs.duration(formattedNextDayFajrTime.diff(now));
+        
+            if(now.isBefore(formattedMaghribTime) && now.isBefore(formattedFajrTime)){
+                //time now is before magrib and before fajr. so must be morning
+                setComingPrayer("FAJR");
+                setTimeRemaining(FajrTimeRemaining);
+                
+                document.body.className = '';
+                document.body.classList.add('sehri')
+            } else if (now.isBefore(formattedMaghribTime) && now.isAfter(formattedFajrTime)) {
+                // time is before magrib but after fajr. so must be day time and coming prayer is margib
+                setComingPrayer("MAGHRIB");
+                setTimeRemaining(MaghribTimeRemaining);
+                
+                document.body.className = '';
+                document.body.classList.add('iftar')
+            } else {
+                // time is after magrib but before fajr. so must be night time and coming prayer is fajr
+                setComingPrayer("FAJR_NEXT_DAY");
+                setTimeRemaining(FajrNextDayTimeRemaining);
+    
+                document.body.className = '';
+                document.body.classList.add('sehri')
+            }
+        }
         const Interval = setInterval(() => {
             calculateTime();
         }, [1000])
 
         return () => clearInterval(Interval);
-    }, [Fajr, Maghrib, FajrNextDay, timezone, city, country, calculateTime]);
+    }, [Fajr, Maghrib, FajrNextDay, timezone, city, country]);
 
     switch(comingPrayer) {
         default: 
