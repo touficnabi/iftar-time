@@ -77,7 +77,6 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
 
     useEffect(() => {
         setMethod(defaultMethod);
-        console.log('run only when the default mrthod changes')
     }, [defaultMethod])
     
     useEffect(() => {

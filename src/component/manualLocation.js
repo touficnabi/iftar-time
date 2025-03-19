@@ -19,12 +19,12 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
 
     const handleManualLocationSelection = async () => {
         setGeoLoading(true);
-        const res = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${selectedCity},${country}&limit=1&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY}`);
+        const res = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${selectedCity},${country.code}&limit=1&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY}`);
         if (res.data[0]) {
-            const {lat, lon} = res.data[0];
-            onManualLocationSelection(selectedCity, country, lat, lon);
+            const { lat, lon } = res.data[0];
+            onManualLocationSelection(selectedCity, country.name, lat, lon);
             Cookies.set('city', selectedCity, { expires: COOKIE_EXPIRATION_DURATION })
-            Cookies.set('country', country, { expires: COOKIE_EXPIRATION_DURATION })
+            Cookies.set('country', country.name, { expires: COOKIE_EXPIRATION_DURATION })
             Cookies.set('lat', lat, { expires: COOKIE_EXPIRATION_DURATION })
             Cookies.set('long', lon, { expires: COOKIE_EXPIRATION_DURATION })
             setGeoLoading(false);
@@ -44,6 +44,7 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
     }
     
     const fetchCities = async country => {
+        country = JSON.parse(country);
         setError(null); //clearing the previous errors.
         setCountry(country);
         setCities(null); //to clean up previous selection
@@ -51,7 +52,7 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
         setCityLoading(true);
 
         try {
-            const res = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", { country }); 
+            const res = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", { country: country.name }); 
             const sortedCities = res.data.data.sort((a, b) => a.localeCompare(b)).map(city => ({value: city, label: city}));
             setCities(sortedCities);
             setCityLoading(false);
@@ -84,7 +85,7 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
     return (
         <div className='manual-location'>
             <button className='manual-location-trigger' onClick={handleManualLocationTrigger}>
-                <>{existingCity ?? selectedCity}, {existingCountry ?? country}</> <span>{<CiEdit />}</span>
+                <>{existingCity ?? selectedCity}, {existingCountry ?? country.name}</> <span>{<CiEdit />}</span>
             </button>
             {open && (
                 <ChangeCity 

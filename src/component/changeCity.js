@@ -23,10 +23,10 @@ const ChangeCity = ({
                 ? <div className='manual-location-geo-loading'>Loading info...</div>
                 : (
                     <div className="container">
-                        {countries && <select onChange={(e) => fetchCities(e.target.value)} value={country} name="country" id="country">
+                        {countries && <select onChange={e  => fetchCities(e.target.value)} value={JSON.stringify(country)} name="country" id="country">
                             <option>Select a country</option>
                             {countries.map(country => (
-                                <option key={country.iso3} value={country.country}>{country.country}</option>
+                                <option key={country.iso3} value={JSON.stringify({name: country.country, code: country.iso2})}>{country.country}</option>
                             ))}
                         </select>}
                         {cityLoading && <div className='city-loading'>Loading cities...</div>}
