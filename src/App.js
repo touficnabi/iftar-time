@@ -19,6 +19,11 @@ function App() {
     const [getInfoFromCity, setGetInfoFromCity] = useState(false);
 
     const onManualLocationSelection = (city, country, lat, long) => {
+        //removing query peram on location change
+        const url = new URL(window.location.href);
+        url.searchParams.delete('method');
+        window.history.pushState({}, "", url);
+        
         setGetInfoFromCity(true);
         city && setCity(city);
         country && setCountry(country);
@@ -27,10 +32,6 @@ function App() {
         setLocError(false)
         setLocation(true);
 
-        //removing query peram on location change
-        const url = new URL(window.location.href);
-        url.searchParams.delete('method');
-        window.history.pushState({}, "", url);
     }
 
     useEffect(() => {
