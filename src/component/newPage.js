@@ -27,7 +27,8 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
 
     const handleUpdateMethod = e => {
         setMethod(e.target.value);
-        Cookies.set('method', e.target.value);
+        // Cookies.set('method', e.target.value);
+        console.log('changed method', e.target.value);
     }  
 
     const getTimingInfo = (url, controller) => {
@@ -73,11 +74,15 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
             }
         })
     }
+
+    useEffect(() => {
+        setMethod(defaultMethod);
+        console.log('run only when the default mrthod changes')
+    }, [defaultMethod])
     
     useEffect(() => {
         const controller = new AbortController();
         //setting updated defaultMethod to the method
-        setMethod(defaultMethod);
         getTimingInfo(`https://api.aladhan.com/v1/calendar?latitude=${lat}&longitude=${long}&method=${method}`, controller);
 
         //set up initial method from the hook or cookie
@@ -92,7 +97,7 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
 
         return () => controller.abort();
 
-    }, [getInfoFromCity, city, defaultMethod, country, lat, long, method]);
+    }, [getInfoFromCity, city, country, lat, long, method]);
 
 
     if (error) return <h3 className='error'>There was an error. Please refresh the page!</h3>
