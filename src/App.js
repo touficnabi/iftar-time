@@ -26,6 +26,11 @@ function App() {
         long && setLong(long);
         setLocError(false)
         setLocation(true);
+
+        //removing query peram on location change
+        const url = new URL(window.location.href);
+        url.searchParams.delete('method');
+        window.history.pushState({}, "", url);
     }
 
     useEffect(() => {

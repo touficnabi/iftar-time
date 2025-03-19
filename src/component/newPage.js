@@ -4,7 +4,7 @@ import Timer from './Timer';
 import Loading from './Loading';
 import useMethods from '../hooks/useMethods';
 import Footer from './Footer';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
@@ -27,8 +27,9 @@ const Page1 = ({getInfoFromCity, city, country, lat, long}) => {
 
     const handleUpdateMethod = e => {
         setMethod(e.target.value);
-        // Cookies.set('method', e.target.value);
-        console.log('changed method', e.target.value);
+        const url = new URL(window.location);
+        url.searchParams.set('method', e.target.value);
+        window.history.pushState({}, "", url); // Updates URL without reloading
     }  
 
     const getTimingInfo = (url, controller) => {
