@@ -45,31 +45,51 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
     
     const fetchCities = async country => {
         country = JSON.parse(country);
+        
         setError(null); //clearing the previous errors.
         setCountry(country);
         setCities(null); //to clean up previous selection
         setSelectedCity(""); //reset previous city
         setCityLoading(true);
-
-        try {
-            const res = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", { country: country.name }); 
-            const sortedCities = res.data.data.sort((a, b) => a.localeCompare(b)).map(city => ({value: city, label: city}));
+        
+        //check if the countriesData is available to access
+        const cachedCountryData = JSON.parse(localStorage.getItem('countriesData')) || [];
+        const selectedCountry = cachedCountryData?.find(c => c.country === country.name);
+        
+        if (selectedCountry) {
+            const sortedCities = selectedCountry.cities.sort((a,b) => a.localeCompare(b)).map(city => ({value: city, label: city}));
             setCities(sortedCities);
             setCityLoading(false);
-        } catch (error) {
-            if (error) {
-                setError('There was an error finding the cities of the selected Country.')
+        } else {
+            try {
+                const res = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", { country: country.name }); 
+                const sortedCities = res.data.data.sort((a, b) => a.localeCompare(b)).map(city => ({value: city, label: city}));
+                setCities(sortedCities);
                 setCityLoading(false);
+            } catch (error) {
+                if (error) {
+                    setError('There was an error finding the cities of the selected Country.')
+                    setCityLoading(false);
+                }
             }
         }
     }
 
     useEffect(() => {
         locError && setOpen(true);
+
         //TODO: impmenet this (https://github.com/dr5hn/countries-states-cities-database) in toufic.me then make calls from there
-        axios.get("https://countriesnow.space/api/v0.1/countries")
-            .then(res => setCountries(res.data.data))
-            .catch(error => console.error("Error fetching countries:", error));
+        const cachedCountryData = JSON.parse(localStorage.getItem('countriesData')) || [];
+        if (cachedCountryData.length) {
+            setCountries(cachedCountryData);
+        } else {
+            axios.get("https://countriesnow.space/api/v0.1/countries")
+                .then(res => {
+                    setCountries(res.data.data); 
+                    localStorage.setItem('countriesData', JSON.stringify(res.data.data))
+                })
+                .catch(error => console.error("Error fetching countries:", error))
+        }
 
     }, [locError])
 
