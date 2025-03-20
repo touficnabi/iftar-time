@@ -19,6 +19,11 @@ function App() {
     const [getInfoFromCity, setGetInfoFromCity] = useState(false);
 
     const onManualLocationSelection = (city, country, lat, long) => {
+        //removing query peram on location change
+        const url = new URL(window.location.href);
+        url.searchParams.delete('method');
+        window.history.pushState({}, "", url);
+        
         setGetInfoFromCity(true);
         city && setCity(city);
         country && setCountry(country);
@@ -26,9 +31,11 @@ function App() {
         long && setLong(long);
         setLocError(false)
         setLocation(true);
+
     }
 
     useEffect(() => {
+        const controller = new AbortController();
         //IF USER ALLOWS LOCATION
         const getUserLocation = pos => {
             const { latitude, longitude } = pos.coords;
@@ -40,25 +47,43 @@ function App() {
 
 
         const getUserIpLocation = () => {
+            const cookieCity = Cookies.get('city');
+            const cookieCountry = Cookies.get('country');
+            const cookieLat = Cookies.get('lat');
+            const cookieLong = Cookies.get('long');
 
-            axios.get('https://ipapi.co/json/').then(res => {
-                const { data } = res;
-                const { latitude, longitude, city, country_name } = data;
-                setLat(latitude);
-                setLong(longitude);
-                setCity(city);
-                setCountry(country_name);
+            if (cookieCity && cookieCountry && cookieLat && cookieLong) {
+                setCity(cookieCity);
+                setCountry(cookieCountry);
+                setLat(cookieLat);
+                setLong(cookieLong);
                 setLocation(true);
-            }).catch(err => {
-                console.log(err);
-                getLocationFromCookie();
-            })
+            } else {
+                axios.get('https://ipapi.co/json/', {signal: controller.signal}).then(res => {
+                    const { data } = res;
+                    const { latitude, longitude, city, country_name } = data;
+                    setLat(latitude);
+                    setLong(longitude);
+                    setCity(city);
+                    setCountry(country_name);
+                    setLocation(true);
+                }).catch(err => {
+                    console.log(err);
+                    getLocationFromCookie();
+                })
+            }
+
         }
-        
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
+
+        const getLocation = () => {
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(getUserLocation, getUserIpLocation);
+            }
         }
+
+        getLocation();
         // location && document.body.classList.add('ready');
+        return () => controller.abort();
     },[]);
 
 
@@ -71,7 +96,10 @@ function App() {
                 appid: process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY
             }
         })
-        .then(res => setCity(res.data[0].name))
+        .then(res => {
+            setCity(res.data[0].name);
+            setCountry(res.data[0].state);
+        })
         .catch(error => console.error("Error fetching open weather map data:", error));
     }
 
@@ -98,7 +126,7 @@ function App() {
             <div className="App">
                 <h1 className='error-msg'>Please turn off your adBlocker Extenstion from the browser! or</h1>
                 {/* <SelectCity /> */}
-                <ManualLocation locError={locError} onManualLocationSelection={onManualLocationSelection} />
+                <ManualLocation existingCity={city} existingCountry={country} locError={locError} onManualLocationSelection={onManualLocationSelection} />
             </div>
         )
     }
@@ -106,7 +134,7 @@ function App() {
     if (location){
         return(
             <div className="App">
-                <ManualLocation onManualLocationSelection={onManualLocationSelection} />
+                <ManualLocation existingCity={city} existingCountry={country} onManualLocationSelection={onManualLocationSelection} />
                 <Page1 getInfoFromCity={getInfoFromCity} lat={lat} long={long} city={city} country={country} />
             </div>
         )
