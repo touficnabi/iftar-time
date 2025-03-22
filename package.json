@@ -14,13 +14,13 @@
     "moment": "^2.24.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-dropdown-select": "^4.11.4",
     "react-geolocated": "^3.0.1",
     "react-geolocation": "^1.0.4",
     "react-google-places-autocomplete": "^3.3.4",
     "react-helmet": "^6.0.0",
     "react-icons": "^5.5.0",
     "react-scripts": "^5.0.1",
+    "react-select": "^5.10.1",
     "sass": "^1.50.1"
   },
   "scripts": {

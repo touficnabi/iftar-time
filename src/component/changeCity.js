@@ -1,4 +1,4 @@
-// import Select from "react-dropdown-select";
+import ReactSelect from 'react-select';
 import { CiCircleRemove } from "react-icons/ci";
 
 const ChangeCity = ({
@@ -30,13 +30,13 @@ const ChangeCity = ({
                             ))}
                         </select>}
                         {cityLoading && <div className='city-loading'>Loading cities...</div>}
-                        {/* {cities && <Select options={cities} loading onChange={(values) => setSelectedCity(values)} />} */}
-                        {cities && <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
+                        {cities && <ReactSelect options={cities} placeholder="Search city" className='city-select' inputClassName="city-select-input" onChange={e => setSelectedCity(e.value)} value={selectedCity ? { label: selectedCity, value: selectedCity } : null} />}
+                        {/* {cities && <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
                             <option>Select your city</option> 
                             {cities.map(city => (
                                 <option key={city.value} value={city.value}>{city.value}</option>
                             ))}
-                        </select>}
+                        </select>} */}
 
                         {<button disabled={selectedCity ? false : true} onClick={handleManualLocationSelection}>Confirm</button>}
                     </div>
