@@ -120,6 +120,48 @@
     font-size: 2.5rem;
 }
 
+.multi-city-selector {
+    width: 100%;
+    max-width: 330px;
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        li {
+            position: relative;
+            text-align: left;
+            cursor: pointer;
+            background-color: rgb(var(--primary-color));
+            border-radius: 5px;
+            padding: 10px;
+            padding-left: 30px;
+            font-size: .9rem;
+            line-height: 1.4;
+            color: #ffffff9f;
+            font-family: var(--primary-font);
+            b {
+                font-family: var(--secondary-font);
+                display: block;
+                font-size: 1rem;
+                color: white;
+            }
+            &:before {
+                content: "";
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                border: 1px solid white;
+                top: 50%;
+                left: 10px;
+                translate: 0 -50%;
+            }  
+            &:hover {
+                opacity: .9;
+            }  
+        }
+    }
+}
+
 .error {
     background: #de2718;
     color: white;

@@ -37,7 +37,6 @@ const ChangeCity = ({
                                 <option key={city.value} value={city.value}>{city.value}</option>
                             ))}
                         </select>} */}
-
                         {<button disabled={selectedCity ? false : true} onClick={handleManualLocationSelection}>Confirm</button>}
                     </div>
                 )}

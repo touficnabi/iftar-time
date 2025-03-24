@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { CiEdit } from "react-icons/ci";
 import ChangeCity from './changeCity';
+import MultiCity from './MultiCity';
 
 const COOKIE_EXPIRATION_DURATION = 30;
 
@@ -16,23 +17,33 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
     const [selectedCity, setSelectedCity] = useState(existingCity);
     const [error, setError] = useState(null);
     const [geoLoading, setGeoLoading] = useState(false);
+    const [multiCities, setMultiCities] = useState(null)
 
     const handleManualLocationSelection = async () => {
         setGeoLoading(true);
-        const res = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${selectedCity},${country.code}&limit=5&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY}`);
-        if (res.data[0]) {
+        const res = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${selectedCity},${country.code}&limit=9&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY}`);
+        if (res.data) {
+            if (res.data.length > 1) {
+                setMultiCities(res.data);
+                setGeoLoading(false);
+                return;
+            }
             const { lat, lon } = res.data[0];
-            onManualLocationSelection(selectedCity, country.name, lat, lon);
-            Cookies.set('city', selectedCity, { expires: COOKIE_EXPIRATION_DURATION })
-            Cookies.set('country', country.name, { expires: COOKIE_EXPIRATION_DURATION })
-            Cookies.set('lat', lat, { expires: COOKIE_EXPIRATION_DURATION })
-            Cookies.set('long', lon, { expires: COOKIE_EXPIRATION_DURATION })
-            setGeoLoading(false);
-            setOpen(false);
+            saveCityInfo(selectedCity, country, lat, lon)
         } else {
             setGeoLoading(false);
             setError('Your city was not found, Please select a nearby major city');
         }
+    }
+
+    const saveCityInfo = (city, country, lat, long) => {
+        onManualLocationSelection(selectedCity, country.name, lat, long);
+        Cookies.set('city', city, { expires: COOKIE_EXPIRATION_DURATION })
+        Cookies.set('country', country.name, { expires: COOKIE_EXPIRATION_DURATION })
+        Cookies.set('lat', lat, { expires: COOKIE_EXPIRATION_DURATION })
+        Cookies.set('long', long, { expires: COOKIE_EXPIRATION_DURATION })
+        setGeoLoading(false);
+        setOpen(false);
     }
 
     const handleManualLocationTrigger = () => {
@@ -40,6 +51,7 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
         setCities(null);
         setSelectedCity(null);
         setError(null);
+        setMultiCities(null);
         setOpen(prevState => !prevState);
     }
     
@@ -108,7 +120,9 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
                 <>{existingCity ?? selectedCity}, {existingCountry ?? country?.name}</> <span>{<CiEdit />}</span>
             </button>
             {open && (
-                <ChangeCity 
+                multiCities
+                ? <MultiCity multiCities={multiCities} saveCityInfo={saveCityInfo} country={country} handleManualLocationTrigger={handleManualLocationTrigger} />
+                : <ChangeCity 
                     error={error}
                     geoLoading={geoLoading}
                     countries={countries} 
