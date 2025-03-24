@@ -10,16 +10,16 @@ const COOKIE_EXPIRATION_DURATION = 30;
 const ManualLocation = ({onManualLocationSelection, locError, existingCity, existingCountry}) => {
     const [open, setOpen] = useState(false);
     const [countries, setCountries] = useState(null);
-    const [country, setCountry] = useState(null);
+    const [country, setCountry] = useState(existingCountry);
     const [cities, setCities] = useState(null);
     const [cityLoading, setCityLoading] = useState(false);
-    const [selectedCity, setSelectedCity] = useState(null);
+    const [selectedCity, setSelectedCity] = useState(existingCity);
     const [error, setError] = useState(null);
     const [geoLoading, setGeoLoading] = useState(false);
 
     const handleManualLocationSelection = async () => {
         setGeoLoading(true);
-        const res = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${selectedCity},${country.code}&limit=1&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY}`);
+        const res = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${selectedCity},${country.code}&limit=5&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY}`);
         if (res.data[0]) {
             const { lat, lon } = res.data[0];
             onManualLocationSelection(selectedCity, country.name, lat, lon);
@@ -62,7 +62,7 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
             setCityLoading(false);
         } else {
             try {
-                const res = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", { country: country.name }); 
+                const res = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", { country: country?.name }); 
                 const sortedCities = res.data.data.sort((a, b) => a.localeCompare(b)).map(city => ({value: city, label: city}));
                 setCities(sortedCities);
                 setCityLoading(false);
@@ -105,7 +105,7 @@ const ManualLocation = ({onManualLocationSelection, locError, existingCity, exis
     return (
         <div className='manual-location'>
             <button className='manual-location-trigger' onClick={handleManualLocationTrigger}>
-                <>{existingCity ?? selectedCity}, {existingCountry ?? country.name}</> <span>{<CiEdit />}</span>
+                <>{existingCity ?? selectedCity}, {existingCountry ?? country?.name}</> <span>{<CiEdit />}</span>
             </button>
             {open && (
                 <ChangeCity 
